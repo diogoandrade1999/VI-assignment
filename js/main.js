@@ -7,7 +7,7 @@ Array.max = array => {
 };
 
 
-d3.csv("../data/GeneralEsportData.csv", function (data) {
+d3.csv("/js/data/GeneralEsportData.csv", function (data) {
     if (1998 <= +data.ReleaseDate && +data.ReleaseDate <= 2019) {
         return {
             genre: data.Genre,
