@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(60, 90, 145);
+}
+
+#title {
+    width: 100%;
+    min-width: 700px;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(25, 51, 100);
+    color: white;
+    border-bottom: 2px solid black;
+}
+
+#title h1 {
+    margin: 15px;
+}
+
+#container {
+    display: flex;
+}
+
+#side-bar {
+    min-width: 400px;
+}
+
+#time-line-container,
+#videogame-genre-list-container {
+    border: 2px solid black;
+    margin: 20px;
+    background-color:  rgb(179, 199, 235);
+}
+
+#time-line-container h3,
+#videogame-genre-list-container h3 {
+    text-align: center;
+    margin: 20px;
+}
+
+#videogame-genre-list {
+    list-style: none;
+}
+
+#videogame-genre-list li {
+    margin: 5px;
+}
+
+#videogame-genre-list li label {
+    margin-left: 15px;
+}
+
+#time-line {
+    margin-top: 5px;
+}
+
+#chart-year-earning,
+#chart-game-earning {
+    border: 2px solid black;
+    margin: 20px;
+    background-color:  rgb(179, 199, 235);
+}
