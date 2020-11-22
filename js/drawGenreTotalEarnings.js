@@ -1,22 +1,11 @@
 // set the dimensions and margins of the graph
-var margin = { top: 20, right: 20, bottom: 30, left: 70 },
+var margin = { top: 20, right: 0, bottom: 30, left: 70 },
     width = 1450 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
-// set the ranges
-var x0 = d3.scaleBand().rangeRound([0, width], .5);
-var x1 = d3.scaleBand();
-var y = d3.scaleLinear().rangeRound([height, 0]);
-
-var yAxis = d3.axisLeft().scale(y);
-
-const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-
-// append the svg obgect to the content of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-var svg = d3.select("#chart-year-earning").append("svg")
+// create svg
+var svg = d3.select("#chart-year-earning")
+    .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -29,7 +18,7 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
     var groupData = {};
     var totalEarningsList = [];
     Object.keys(groupGenreTotalEarnings).forEach(genre => {
-        Object.keys(groupGenreTotalEarnings[genre]).map(function (releaseDate) {
+        Object.keys(groupGenreTotalEarnings[genre]).forEach(releaseDate => {
             if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
                 totalEarningsList.push(groupGenreTotalEarnings[genre][releaseDate]);
                 if (!(releaseDate in groupData)) {
@@ -41,20 +30,26 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
     });
     var releaseDates = Object.keys(groupData);
 
-    // labels
-    $("#min-year").html(minMaxReleaseDate[0]);
-    $("#max-year").html(minMaxReleaseDate[1]);
-
     // clean draw
     svg.selectAll("*").remove();
 
-    var xAxis = d3.axisBottom().scale(x0)
-        .tickValues(releaseDates);
+    // set the ranges
+    var x0 = d3.scaleBand()
+        .range([0, width])
+        .padding(0.5)
+        .domain(releaseDates);
+    var x1 = d3.scaleBand()
+        .domain(Object.keys(groupGenreTotalEarnings))
+        .range([0, x0.bandwidth()]);
+    var y = d3.scaleLinear()
+        .range([height, 0])
+        .domain([0, Array.max(totalEarningsList)]);
 
-    // Scale the range of the data
-    x0.domain(releaseDates);
-    x1.domain(Object.keys(groupGenreTotalEarnings)).rangeRound([0, x0.bandwidth()]);
-    y.domain([0, Array.max(totalEarningsList)]);
+    var xAxis = d3.axisBottom()
+        .scale(x0)
+        .tickValues(releaseDates);
+    var yAxis = d3.axisLeft()
+        .scale(y);
 
     // add the x Axis
     svg.append("g")
@@ -88,16 +83,17 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
     slice.selectAll("rect")
         .data(function (d) { return d.value; })
         .enter().append("rect")
+        .attr("class", function (d) { return d.genre.replaceAll(" ", ""); })
         .attr("width", x1.bandwidth())
         .attr("x", function (d) { return x1(d.genre); })
-        .style("fill", function (d) { return color(d.genre) })
+        .style("fill", function (d) { return color(d.genre); })
         .attr("y", function (d) { return y(0); })
         .attr("height", function (d) { return height - y(0); })
         .on("mouseover", function (d) {
-            d3.select(this).style("fill", d3.rgb(color(d.genre)).darker(2));
+            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
         })
         .on("mouseout", function (d) {
-            d3.select(this).style("fill", color(d.genre));
+            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
         });
 
 
@@ -117,10 +113,17 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
         .style("opacity", "0");
 
     legend.append("rect")
+        .attr("class", function (d) { return d.replaceAll(" ", ""); })
         .attr("x", width - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", function (d) { return color(d); });
+        .style("fill", function (d) { return color(d); })
+        .on("mouseover", function (d) {
+            d3.selectAll("." + d.replaceAll(" ", "")).style("fill", d3.rgb(color(d)).darker(2));
+        })
+        .on("mouseout", function (d) {
+            d3.selectAll("." + d.replaceAll(" ", "")).style("fill", color(d));
+        });
 
     legend.append("text")
         .attr("x", width - 24)
