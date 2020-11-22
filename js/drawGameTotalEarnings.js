@@ -43,15 +43,6 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
             return d.game;
         }));
 
-    // add the x Axis
-    svg2.append("g")
-        .attr("transform", "translate(0," + height2 + ")")
-        .call(d3.axisBottom(x2));
-
-    // add the y Axis
-    svg2.append("g")
-        .call(d3.axisLeft(y2));
-
     // append the rectangles for the bar chart
     svg2.selectAll(".bar")
         .data(groupData)
@@ -67,4 +58,13 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
         .on("mouseout", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
         });
+
+    // add the x Axis
+    svg2.append("g")
+        .attr("transform", "translate(0," + height2 + ")")
+        .call(d3.axisBottom(x2));
+
+    // add the y Axis
+    svg2.append("g")
+        .call(d3.axisLeft(y2));
 }

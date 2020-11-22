@@ -7,32 +7,32 @@
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/slider.css">
 </head>
 <body>
-    <main>
-        <div id="side-bar">
-            <div id="videogame-genre-list-container">
-                <h3>VideoGame Genre</h3>
-                <ul id="videogame-genre-list">
-                    <li>
-                        <input type="checkbox" id="genre-all" name="genre" value="all" checked>
-                        <label for="genre-all">Select All</label>
-                    </li>
-                </ul>
-            </div>
-            <div id="time-line-container">
-                <h3>Show data from:</h3>
-                <div id="time-line">
-                    <div id="slider"></div>
-                    <div id="labels">
-                        <div class="label-year" id="min-year"></div>
-                        <div class="label-year" id="max-year"></div>
-                    </div>
-                </div>
+    <header>
+        <div id="logo">
+            <h3>Esports Earnings</h3>
+        </div>
+        <div id="videogame-genre-list-container">
+            <button id="videogame-genre-btn">VideoGame Genre</button>
+            <ul id="videogame-genre-list" class="dropdown-content">
+                <li>
+                    <input type="checkbox" id="genre-all" name="genre" value="all" checked>
+                    <label for="genre-all">Select All</label>
+                </li>
+            </ul>
+        </div>
+        <div id="time-line-container">
+            <div id="time-line">
+                <div class="label-year" id="min-year"></div>
+                <div id="slider"></div>
+                <div class="label-year" id="max-year"></div>
             </div>
         </div>
+    </header>
+    <main>
         <div id="container">
             <div id="title">
                 <h1>Esports Earnings from 1998 to 2019</h1>
@@ -51,5 +51,6 @@
     <script type="text/javascript" src="js/drawGenreTotalEarnings.js"></script>
     <script type="text/javascript" src="js/drawGameTotalEarnings.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/header.js"></script>
 </body>
 </html>

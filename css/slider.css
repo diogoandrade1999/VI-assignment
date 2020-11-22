@@ -1,19 +1,13 @@
 #slider {
-    margin: 15px;
-}
-
-#labels {
-    display: flex;
-    justify-content: space-around;
-    margin: 15px;
+    flex: 3;
+    margin: 15px 20px 0 20px;
 }
 
 .label-year {
-    background-color: rgb(25, 51, 100);
+    flex: 1;
     color: white;
-    border: 2px solid black;
-    height: 20px;
-    width: 150px;
     text-align: center;
-    vertical-align: middle;
+    background-color: #3498DB;
+    padding: 16px;
+    font-size: 16px;
 }
