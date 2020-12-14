@@ -1,0 +1,174 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+header {
+    display: flex;
+    background: black;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 8vh;
+    align-items: center;
+    z-index: 10;
+}
+
+#logo-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+#logo {
+    color: white;
+    font-size: 25px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+nav {
+    flex: 1.5;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    flex: 1;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    border-bottom: 2px solid white;
+}
+
+.btn {
+    margin-top: 50px;
+    border: 1px solid white;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.axisHome {
+    color: white;
+}
+
+.container {
+    padding-top: 80px;
+}
+
+#home {
+    min-height: 100vh;
+    background-image: url("../img/home.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    -webkit-text-stroke: 5px black;
+    -webkit-text-fill-color: white;
+    font-size: 3em;
+}
+
+#home-games {
+    min-height: 100vh;
+    background-color: rgb(15, 21, 29);
+}
+
+#game-content {
+    margin-top: 20px;
+    padding: 10px 50px 10px 50px;
+    display: flex;
+    grid-template-areas: "gameImage" "gameDescription";
+    background-color: white;
+}
+
+#game-image {
+    grid-area: "gameImage";
+}
+
+#game-description {
+    grid-area: "gameDescription";
+    justify-content: center;
+    padding: 50px;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+#home-tournaments {
+    min-height: 96vh;
+    background-color: #01232c;
+}
+
+footer {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    height: 4vh;
+}
+
+@media screen and (max-width: 950px) {
+    .line {
+        width: 30px;
+        height: 3px;
+        background: white;
+        margin: 5px;
+    }
+
+    .hamburger-container {
+        float: right;
+        margin-right: 20%;
+    }
+
+    #hamburger {
+        cursor: pointer;
+        flex: 1;
+    }
+
+    nav {
+        position: absolute;
+        margin-top: 8vh;
+        flex: 1;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        height: 20vh;
+        width: 100%;
+        background: black;
+        display: none;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+}

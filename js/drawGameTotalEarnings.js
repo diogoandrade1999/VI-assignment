@@ -54,6 +54,12 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
         .attr("height", y2.bandwidth())
         .on("mouseover", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
+            if (window.location.pathname == '/index.html' || window.location.pathname == '/') {
+                $('#game-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="800px">');
+                $('#game-description').html('<h1><b>' + d.game + '</b></h1>' + 
+                                            '</br><h3>' + games_data[d.game].description + '</h3>' +
+                                            '</br><h3><b>Genre:</b> ' + d.genre + '</h3>');
+            }
         })
         .on("mouseout", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
@@ -61,10 +67,20 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
 
     // add the x Axis
     svg2.append("g")
+        .attr("class", function (d) { if (window.location.pathname == '/index.html' || window.location.pathname == '/') { return "axisHome"; } })
         .attr("transform", "translate(0," + height2 + ")")
         .call(d3.axisBottom(x2));
 
     // add the y Axis
     svg2.append("g")
+        .attr("class", function (d) { if (window.location.pathname == '/index.html' || window.location.pathname == '/') { return "axisHome"; } })
         .call(d3.axisLeft(y2));
+
+    // init on home
+    if (window.location.pathname == '/index.html' || window.location.pathname == '/') {
+        $('#game-image').html('<img src="img/' + games_data["Call of Duty: Modern Warfare"].image +'" alt="game-image" width="800px">');
+        $('#game-description').html('<h1><b>Call of Duty: Modern Warfare</b></h1>' + 
+                                    '</br><h3>' + games_data["Call of Duty: Modern Warfare"].description + '</h3>' +
+                                    '</br><h3><b>Genre:</b> First-Person Shooter</h3>');
+    }
 }
