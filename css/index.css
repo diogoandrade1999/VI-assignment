@@ -100,9 +100,14 @@ nav {
     font-size: 3em;
 }
 
-#home-games {
+#home-tournaments {
     min-height: 100vh;
     background-color: rgb(15, 21, 29);
+}
+
+#home-games {
+    min-height: 96vh;
+    background-color: #01232c;
 }
 
 #game-container,
@@ -143,11 +148,6 @@ nav {
     padding: 50px;
     text-align: justify;
     line-height: 1.6;
-}
-
-#home-tournaments {
-    min-height: 96vh;
-    background-color: #01232c;
 }
 
 footer {
