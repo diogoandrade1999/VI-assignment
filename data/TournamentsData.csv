@@ -992,8 +992,8 @@ Year,Game,Genre,Earnings,Players,Tournaments
 2017,Old School Runescape,Role-Playing Game,122000.0,39,8
 2018,Old School Runescape,Role-Playing Game,156500.0,24,5
 2019,Old School Runescape,Role-Playing Game,97000.0,8,4
-2016,Pokkén Tournament,Fighting Game,40381.66,42,10
-2017,Pokkén Tournament,Fighting Game,36635.0,56,15
+2016,PokkÃ©n Tournament,Fighting Game,40381.66,42,10
+2017,PokkÃ©n Tournament,Fighting Game,36635.0,56,15
 2016,Clash Royale,Strategy,228859.56,36,7
 2017,Clash Royale,Strategy,876496.34,99,10
 2018,Clash Royale,Strategy,986262.37,199,19
@@ -1106,11 +1106,11 @@ Year,Game,Genre,Earnings,Players,Tournaments
 2017,ARMS,Fighting Game,3257.1,36,13
 2018,ARMS,Fighting Game,13297.14,159,56
 2019,ARMS,Fighting Game,1643.85,39,12
-2017,PLAYERUNKNOWN’S BATTLEGROUNDS,Battle Royale,1007803.6,215,14
-2018,PLAYERUNKNOWN’S BATTLEGROUNDS,Battle Royale,8319226.32,3008,123
-2019,PLAYERUNKNOWN’S BATTLEGROUNDS,Battle Royale,11267221.08,2834,112
-2017,Pokémon VGC,Strategy,113000.0,94,9
-2018,Pokémon VGC,Strategy,98500.0,136,15
+2017,PLAYERUNKNOWN'S BATTLEGROUNDS,Battle Royale,1007803.6,215,14
+2018,PLAYERUNKNOWN'S BATTLEGROUNDS,Battle Royale,8319226.32,3008,123
+2019,PLAYERUNKNOWN'S BATTLEGROUNDS,Battle Royale,11267221.08,2834,112
+2017,PokÃ©mon VGC,Strategy,113000.0,94,9
+2018,PokÃ©mon VGC,Strategy,98500.0,136,15
 2017,Doom (2016),First-Person Shooter,7000,6,1
 2017,Rage,First-Person Shooter,5000,3,1
 2017,The Elder Scrolls: Legends,Collectible Card Game,5000,3,1
@@ -1122,9 +1122,9 @@ Year,Game,Genre,Earnings,Players,Tournaments
 2017,Marvel vs. Capcom: Infinite,Fighting Game,34120.0,20,5
 2018,Marvel vs. Capcom: Infinite,Fighting Game,5952.12,42,9
 2019,Marvel vs. Capcom: Infinite,Fighting Game,1920.0,16,4
-2017,Pokkén Tournament DX,Fighting Game,6249.0,20,5
-2018,Pokkén Tournament DX,Fighting Game,3181.4,22,8
-2019,Pokkén Tournament DX,Fighting Game,7908.57,32,9
+2017,PokkÃ©n Tournament DX,Fighting Game,6249.0,20,5
+2018,PokkÃ©n Tournament DX,Fighting Game,3181.4,22,8
+2019,PokkÃ©n Tournament DX,Fighting Game,7908.57,32,9
 2017,Gundam Versus,First-Person Shooter,280,6,1
 2017,Puyo Puyo Tetris,Puzzle Game,240,3,1
 2018,Puyo Puyo Tetris,Puzzle Game,466.67,6,2
@@ -1199,8 +1199,8 @@ Year,Game,Genre,Earnings,Players,Tournaments
 2019,Call of Duty: Black Ops 4,First-Person Shooter,6383189.0,819,31
 2018,Call of Duty: Blackout,First-Person Shooter,315000.0,41,6
 2019,Call of Duty: Blackout,First-Person Shooter,296608.35,203,12
-2018,PLAYERUNKNOWN’S BATTLEGROUNDS Mobile,Battle Royale,617069.08,140,6
-2019,PLAYERUNKNOWN’S BATTLEGROUNDS Mobile,Battle Royale,3031637.99,1248,23
+2018,PLAYERUNKNOWN'S BATTLEGROUNDS Mobile,Battle Royale,617069.08,140,6
+2019,PLAYERUNKNOWN'S BATTLEGROUNDS Mobile,Battle Royale,3031637.99,1248,23
 2018,FIFA 19,Sports,551731.35,149,19
 2019,FIFA 19,Sports,2690910.99,502,29
 2018,Assetto Corsa,Racing,15000,8,1

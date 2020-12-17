@@ -1,6 +1,6 @@
 // set the dimensions and margins of the graph
-var margin3 = { top: 20, right: 0, bottom: 30, left: 90 },
-    width3 = 1450 - margin3.left - margin3.right,
+var margin3 = { top: 50, right: 10, bottom: 30, left: 240 },
+    width3 = 1240 - margin3.left - margin3.right,
     height3 = 400 - margin3.top - margin3.bottom;
 
 // create svg
@@ -15,122 +15,86 @@ var svg3 = d3.select("#chart-tournament-earning")
 
 const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) => {
     // data
-    var groupData = {};
-    var totalEarningsList = [];
-    Object.keys(groupGenreTotalEarnings).forEach(genre => {
-        Object.keys(groupGenreTotalEarnings[genre]).forEach(releaseDate => {
-            if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
-                totalEarningsList.push(groupGenreTotalEarnings[genre][releaseDate]);
-                if (!(releaseDate in groupData)) {
-                    groupData[releaseDate] = [];
-                }
-                groupData[releaseDate].push({ "genre": genre, "totalEarnings": groupGenreTotalEarnings[genre][releaseDate] });
-            }
-        });
+    var groupData = [];
+    Object.keys(groupTournamentsEarnings).forEach(releaseDate => {
+        if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
+            groupTournamentsEarnings[releaseDate].forEach(data => {
+                groupData.push(data);
+            });
+        }
     });
-    var releaseDates = Object.keys(groupData);
+    groupData.sort((a, b) => (a.earnings > b.earnings) ? 1 : ((b.earnings > a.earnings) ? -1 : 0));
+    groupData = groupData.slice(groupData.length - 10);
 
     // clean draw
     svg3.selectAll("*").remove();
 
     // set the ranges
-    var x0 = d3.scaleBand()
-        .range([0, width])
-        .padding(0.5)
-        .domain(releaseDates);
-    var x1 = d3.scaleBand()
-        .domain(Object.keys(groupGenreTotalEarnings))
-        .range([0, x0.bandwidth()]);
-    var y = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, Array.max(totalEarningsList)]);
+    var x2 = d3.scaleLinear()
+        .range([0, width2])
+        .domain([0, d3.max(groupData, function (d) {
+            return d.earnings;
+        })]);
 
-    var xAxis = d3.axisBottom()
-        .scale(x0)
-        .tickValues(releaseDates);
-    var yAxis = d3.axisLeft()
-        .scale(y);
+    var y2 = d3.scaleBand()
+        .range([height2, 0])
+        .padding(0.1)
+        .domain(groupData.map(function (d) {
+            return d.game;
+        }));
 
-    // add the x Axis
-    svg3.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
-
-    // add the y Axis
-    svg3.append("g")
-        .attr("class", "y axis")
-        .style('opacity', '0')
-        .call(yAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .style('font-weight', 'bold')
-        .text("Value");
-
-    svg3.select('.y').transition().duration(500).delay(1300).style('opacity', '1');
-
-    groupData = d3.entries(groupData);
-
-    var slice = svg3.selectAll(".slice")
+    // append the rectangles for the bar chart
+    svg3.selectAll(".bar")
         .data(groupData)
-        .enter().append("g")
-        .attr("class", "g")
-        .attr("transform", function (d) { return "translate(" + x0(d.key) + ",0)"; });
-
-    slice.selectAll("rect")
-        .data(function (d) { return d.value; })
         .enter().append("rect")
-        .attr("class", function (d) { return d.genre.replaceAll(" ", ""); })
-        .attr("width", x1.bandwidth())
-        .attr("x", function (d) { return x1(d.genre); })
+        .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
         .style("fill", function (d) { return color(d.genre); })
-        .attr("y", function (d) { return y(0); })
-        .attr("height", function (d) { return height - y(0); })
+        .attr("width", function (d) { return x2(d.earnings); })
+        .attr("y", function (d) { return y2(d.game); })
+        .attr("height", y2.bandwidth())
         .on("mouseover", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
+            if (!window.location.pathname.includes('/graphics.html')) {
+                $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '"></iframe>');
+                $('#tournament-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
+                $('#tournament-description').html('<h1><b>' + d.game + '</b></h1>' + 
+                                            '</br><h3>' + games_data[d.game].description + '</h3>' +
+                                            '</br><h3><b>Genre:</b> ' + d.genre + '</h3>');
+            }
         })
         .on("mouseout", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
         });
 
+    // add the x Axis
+    svg3.append("g")
+        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
+        .attr("transform", "translate(0," + height2 + ")")
+        .call(d3.axisBottom(x2));
 
-    slice.selectAll("rect")
-        .transition()
-        .delay(function (d) { return Math.random() * 1000; })
-        .duration(1000)
-        .attr("y", function (d) { return y(d.totalEarnings); })
-        .attr("height", function (d) { return height - y(d.totalEarnings); });
+    // add the y Axis
+    svg3.append("g")
+        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
+        .call(d3.axisLeft(y2));
 
-    //Legend
-    var legend = svg3.selectAll(".legend")
-        .data(Object.keys(groupGenreTotalEarnings))
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; })
-        .style("opacity", "0");
-
-    legend.append("rect")
-        .attr("class", function (d) { return d.replaceAll(" ", ""); })
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", function (d) { return color(d); })
-        .on("mouseover", function (d) {
-            d3.selectAll("." + d.replaceAll(" ", "")).style("fill", d3.rgb(color(d)).darker(2));
-        })
-        .on("mouseout", function (d) {
-            d3.selectAll("." + d.replaceAll(" ", "")).style("fill", color(d));
+    svg3.append("text")
+        .attr("x", width2 / 2 )
+        .attr("y", -10)
+        .style("text-anchor", "middle")
+        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "titleHome"; } })
+        .text(function (d) {
+            if (!window.location.pathname.includes('/graphics.html')) {
+                return "2019's Tournaments Earnings per Game";
+            }
+            return "Tournaments Earnings per Game";
         });
 
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .style("text-anchor", "end")
-        .text(function (d) { return d; });
-
-    legend.transition().duration(500).delay(function (d, i) { return 1300 + 100 * i; }).style("opacity", "1");
+    // init on home
+    if (!window.location.pathname.includes('/graphics.html')) {
+        $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data["Fortnite"].trailer +'"></iframe>');
+        $('#tournament-image').html('<img src="img/' + games_data["Fortnite"].image +'" alt="game-image" width="620">');
+        $('#tournament-description').html('<h1><b>Fortnite</b></h1>' + 
+                                    '</br><h3>' + games_data["Fortnite"].description + '</h3>' +
+                                    '</br><h3><b>Genre:</b> Battle Royale</h3>');
+    }
 }

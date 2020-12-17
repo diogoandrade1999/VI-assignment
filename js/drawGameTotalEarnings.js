@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin2 = { top: 50, right: 10, bottom: 30, left: 280 },
+var margin2 = { top: 50, right: 10, bottom: 30, left: 240 },
     width2 = 1240 - margin2.left - margin2.right,
     height2 = 400 - margin2.top - margin2.bottom;
 
@@ -55,7 +55,8 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
         .on("mouseover", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
             if (!window.location.pathname.includes('/graphics.html')) {
-                $('#game-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="800px">');
+                $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '"></iframe>');
+                $('#game-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
                 $('#game-description').html('<h1><b>' + d.game + '</b></h1>' + 
                                             '</br><h3>' + games_data[d.game].description + '</h3>' +
                                             '</br><h3><b>Genre:</b> ' + d.genre + '</h3>');
@@ -81,11 +82,17 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
         .attr("y", -10)
         .style("text-anchor", "middle")
         .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "titleHome"; } })
-        .text("Game Earnings");
+        .text(function (d) {
+            if (!window.location.pathname.includes('/graphics.html')) {
+                return "2019's Games Earnings";
+            }
+            return "Games Earnings";
+        });
 
     // init on home
     if (!window.location.pathname.includes('/graphics.html')) {
-        $('#game-image').html('<img src="img/' + games_data["Call of Duty: Modern Warfare"].image +'" alt="game-image" width="800px">');
+        $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Call of Duty: Modern Warfare"].trailer +'"></iframe>');
+        $('#game-image').html('<img src="img/' + games_data["Call of Duty: Modern Warfare"].image +'" alt="game-image" width="620">');
         $('#game-description').html('<h1><b>Call of Duty: Modern Warfare</b></h1>' + 
                                     '</br><h3>' + games_data["Call of Duty: Modern Warfare"].description + '</h3>' +
                                     '</br><h3><b>Genre:</b> First-Person Shooter</h3>');

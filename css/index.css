@@ -105,20 +105,39 @@ nav {
     background-color: rgb(15, 21, 29);
 }
 
-#game-content {
+#game-container,
+#tournament-container {
+    display: flex;
+    grid-template-areas: "chartHome" "gameTrailer";
+    min-width: 1470px;
+}
+
+#game-content,
+#tournament-content {
     margin-top: 20px;
     padding: 10px 50px 10px 50px;
     display: flex;
     grid-template-areas: "gameImage" "gameDescription";
     background-color: white;
-    min-width: 1470px;
 }
 
-#game-image {
+#chart-game-earning,
+#chart-tournament-earning {
+    grid-area: "chartHome";
+}
+
+#game-trailer,
+#tournament-trailer {
+    grid-area: "gameTrailer";
+}
+
+#game-image,
+#tournament-image {
     grid-area: "gameImage";
 }
 
-#game-description {
+#game-description,
+#tournament-description {
     grid-area: "gameDescription";
     justify-content: center;
     padding: 50px;
