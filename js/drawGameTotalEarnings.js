@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin2 = { top: 20, right: 0, bottom: 30, left: 280 },
+var margin2 = { top: 50, right: 10, bottom: 30, left: 280 },
     width2 = 1240 - margin.left - margin.right,
     height2 = 400 - margin2.top - margin2.bottom;
 
@@ -54,7 +54,7 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
         .attr("height", y2.bandwidth())
         .on("mouseover", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
-            if (window.location.pathname == '/index.html' || window.location.pathname == '/') {
+            if (!window.location.pathname.includes('/graphics.html')) {
                 $('#game-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="800px">');
                 $('#game-description').html('<h1><b>' + d.game + '</b></h1>' + 
                                             '</br><h3>' + games_data[d.game].description + '</h3>' +
@@ -67,17 +67,24 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
 
     // add the x Axis
     svg2.append("g")
-        .attr("class", function (d) { if (window.location.pathname == '/index.html' || window.location.pathname == '/') { return "axisHome"; } })
+        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
         .attr("transform", "translate(0," + height2 + ")")
         .call(d3.axisBottom(x2));
 
     // add the y Axis
     svg2.append("g")
-        .attr("class", function (d) { if (window.location.pathname == '/index.html' || window.location.pathname == '/') { return "axisHome"; } })
+        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
         .call(d3.axisLeft(y2));
 
+    svg2.append("text")
+        .attr("x", width2 / 2 )
+        .attr("y", -10)
+        .style("text-anchor", "middle")
+        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "titleHome"; } })
+        .text("Game Earnings");
+
     // init on home
-    if (window.location.pathname == '/index.html' || window.location.pathname == '/') {
+    if (!window.location.pathname.includes('/graphics.html')) {
         $('#game-image').html('<img src="img/' + games_data["Call of Duty: Modern Warfare"].image +'" alt="game-image" width="800px">');
         $('#game-description').html('<h1><b>Call of Duty: Modern Warfare</b></h1>' + 
                                     '</br><h3>' + games_data["Call of Duty: Modern Warfare"].description + '</h3>' +

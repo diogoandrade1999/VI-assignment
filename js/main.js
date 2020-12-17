@@ -75,7 +75,7 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportDa
     const minMaxReleaseDate = [Array.min(releaseDateList), Array.max(releaseDateList)];
 
     // init
-    if (!(window.location.pathname == '/index.html' || window.location.pathname == '/')) {
+    if (window.location.pathname.includes('/graphics.html')) {
         $("#min-year").html(minMaxReleaseDate[0]);
         $("#max-year").html(minMaxReleaseDate[1]);
         makeList(genreList);
@@ -111,7 +111,7 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportDa
     }
 });
 
-if (window.location.pathname == '/index.html' || window.location.pathname == '/') {
+if (!window.location.pathname.includes('/graphics.html')) {
     d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/HistoricalEsportData.csv", function (data) {
     if (data.Date.includes("2019")) {
             return {

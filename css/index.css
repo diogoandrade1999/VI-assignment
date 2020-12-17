@@ -20,6 +20,7 @@ header {
     height: 8vh;
     align-items: center;
     z-index: 10;
+    min-width: 550px;
 }
 
 #logo-container {
@@ -74,6 +75,11 @@ nav {
     color: white;
 }
 
+.titleHome {
+    fill: white;
+    font-size: 50px;
+}
+
 .container {
     padding-top: 80px;
 }
@@ -104,6 +110,7 @@ nav {
     display: flex;
     grid-template-areas: "gameImage" "gameDescription";
     background-color: white;
+    min-width: 1470px;
 }
 
 #game-image {
