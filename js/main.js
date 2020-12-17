@@ -112,10 +112,11 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportDa
 });
 
 if (!window.location.pathname.includes('/graphics.html')) {
-    d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/HistoricalEsportData.csv", function (data) {
-    if (data.Date.includes("2019")) {
+    d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/TournamentsEsportData.csv", function (data) {
+    if (data.Year == "2019") {
             return {
                 game: data.Game,
+                Genre: data.Genre,
                 earnings: +data.Earnings,
                 players: +data.Players,
                 tournaments: +data.Tournaments

@@ -1,6 +1,6 @@
 // set the dimensions and margins of the graph
 var margin2 = { top: 50, right: 10, bottom: 30, left: 280 },
-    width2 = 1240 - margin.left - margin.right,
+    width2 = 1240 - margin2.left - margin2.right,
     height2 = 400 - margin2.top - margin2.bottom;
 
 // create svg
