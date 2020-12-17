@@ -118,7 +118,7 @@ nav {
     padding: 10px 50px 10px 50px;
     display: flex;
     grid-template-areas: "gameImage" "gameDescription";
-    background-color: white;
+    color: white;
 }
 
 #chart-game-earning,

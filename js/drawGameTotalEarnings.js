@@ -55,7 +55,7 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
         .on("mouseover", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
             if (!window.location.pathname.includes('/graphics.html')) {
-                $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '"></iframe>');
+                $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '" frameborder="0" allowfullscreen></iframe>');
                 $('#game-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
                 $('#game-description').html('<h1><b>' + d.game + '</b></h1>' + 
                                             '</br><h3>' + games_data[d.game].description + '</h3>' +
@@ -70,7 +70,7 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
     svg2.append("g")
         .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
         .attr("transform", "translate(0," + height2 + ")")
-        .call(d3.axisBottom(x2));
+        .call(d3.axisBottom(x2).ticks(20, "s"));
 
     // add the y Axis
     svg2.append("g")
@@ -91,7 +91,7 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
 
     // init on home
     if (!window.location.pathname.includes('/graphics.html')) {
-        $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Call of Duty: Modern Warfare"].trailer +'"></iframe>');
+        $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Call of Duty: Modern Warfare"].trailer +'" frameborder="0" allowfullscreen></iframe>');
         $('#game-image').html('<img src="img/' + games_data["Call of Duty: Modern Warfare"].image +'" alt="game-image" width="620">');
         $('#game-description').html('<h1><b>Call of Duty: Modern Warfare</b></h1>' + 
                                     '</br><h3>' + games_data["Call of Duty: Modern Warfare"].description + '</h3>' +

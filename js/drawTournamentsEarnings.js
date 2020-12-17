@@ -55,7 +55,7 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) =>
         .on("mouseover", function (d) {
             d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
             if (!window.location.pathname.includes('/graphics.html')) {
-                $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '"></iframe>');
+                $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '" frameborder="0" allowfullscreen></iframe>');
                 $('#tournament-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
                 $('#tournament-description').html('<h1><b>' + d.game + '</b></h1>' + 
                                             '</br><h3>' + games_data[d.game].description + '</h3>' +
@@ -70,7 +70,7 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) =>
     svg3.append("g")
         .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
         .attr("transform", "translate(0," + height2 + ")")
-        .call(d3.axisBottom(x2));
+        .call(d3.axisBottom(x2).ticks(20, "s"));
 
     // add the y Axis
     svg3.append("g")
@@ -91,7 +91,7 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) =>
 
     // init on home
     if (!window.location.pathname.includes('/graphics.html')) {
-        $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data["Fortnite"].trailer +'"></iframe>');
+        $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data["Fortnite"].trailer +'" frameborder="0" allowfullscreen></iframe>');
         $('#tournament-image').html('<img src="img/' + games_data["Fortnite"].image +'" alt="game-image" width="620">');
         $('#tournament-description').html('<h1><b>Fortnite</b></h1>' + 
                                     '</br><h3>' + games_data["Fortnite"].description + '</h3>' +

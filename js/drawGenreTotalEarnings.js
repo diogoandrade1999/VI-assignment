@@ -48,7 +48,7 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
     var xAxis = d3.axisBottom()
         .scale(x0)
         .tickValues(releaseDates);
-    var yAxis = d3.axisLeft()
+    var yAxis = d3.axisLeft().ticks(20, "s")
         .scale(y);
 
     // add the x Axis
