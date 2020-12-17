@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin = { top: 20, right: 0, bottom: 30, left: 90 },
+var margin = { top: 20, right: 30, bottom: 30, left: 60 },
     width = 1450 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -13,100 +13,84 @@ var svg = d3.select("#chart-year-earning")
         "translate(" + margin.left + "," + margin.top + ")");
 
 
-const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
+const drawGenreTotalEarnings = (minMaxReleaseDate, yearList, data) => {
     // data
-    var groupData = {};
+
+    var filteredData = data.reduce((filteredData, d) => {
+        if(minMaxReleaseDate[0] <= d.year && d.year <= minMaxReleaseDate[1]){
+            filteredData.push(d);
+        }
+        return filteredData;
+    }, []);
+
+    //console.log(filteredData);
+    
     var totalEarningsList = [];
-    Object.keys(groupGenreTotalEarnings).forEach(genre => {
-        Object.keys(groupGenreTotalEarnings[genre]).forEach(releaseDate => {
-            if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
-                totalEarningsList.push(groupGenreTotalEarnings[genre][releaseDate]);
-                if (!(releaseDate in groupData)) {
-                    groupData[releaseDate] = [];
-                }
-                groupData[releaseDate].push({ "genre": genre, "totalEarnings": groupGenreTotalEarnings[genre][releaseDate] });
-            }
-        });
-    });
-    var releaseDates = Object.keys(groupData);
+    var releaseDates = [];
+    var genres = ["Strategy", "First-Person Shooter", "Multiplayer Online Battle Arena", "Role-Playing Game", "Racing",
+            "Fighting Game", "Sports", "Collectible Card Game", "Puzzle Game", "Battle Royale", "Third-Person Shooter"];
+
+    releaseDates.sort();
+    // console.log(groupData);
 
     // clean draw
     svg.selectAll("*").remove();
 
-    // set the ranges
-    var x0 = d3.scaleBand()
-        .range([0, width])
-        .padding(0.5)
-        .domain(releaseDates);
-    var x1 = d3.scaleBand()
-        .domain(Object.keys(groupGenreTotalEarnings))
-        .range([0, x0.bandwidth()]);
-    var y = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, Array.max(totalEarningsList)]);
+    // group the data: I want to draw one line per group
+    var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
+        .key(function(d) { return d.genre;})
+        .entries(filteredData);
 
-    var xAxis = d3.axisBottom()
-        .scale(x0)
-        .tickValues(releaseDates);
-    var yAxis = d3.axisLeft()
-        .scale(y);
-
-    // add the x Axis
+    // Add X axis --> it is a date format
+    var x = d3.scaleLinear()
+        .domain(d3.extent(filteredData, function(d) { return d.year; }))
+        .range([ 0, width ]);
     svg.append("g")
-        .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(d3.axisBottom(x).ticks(yearList.length).tickFormat(d3.format("d")));
 
-    // add the y Axis
+    // Add Y axis
+    var y = d3.scaleSymlog()
+        .domain([0, d3.max(filteredData, function(d) { return +d.earnings; })])
+        .range([ height, 0 ]);
     svg.append("g")
-        .attr("class", "y axis")
-        .style('opacity', '0')
-        .call(yAxis)
-        .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .style('font-weight', 'bold')
-        .text("Value");
+        .call(d3.axisLeft(y));
 
-    svg.select('.y').transition().duration(500).delay(1300).style('opacity', '1');
+    // color palette
+    var res = sumstat.map(function(d){ return d.name }) // list of group names
+    var color = d3.scaleOrdinal()
+        .domain(res)
+        .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
 
-    groupData = d3.entries(groupData);
-
-    var slice = svg.selectAll(".slice")
-        .data(groupData)
-        .enter().append("g")
-        .attr("class", "g")
-        .attr("transform", function (d) { return "translate(" + x0(d.key) + ",0)"; });
-
-    slice.selectAll("rect")
-        .data(function (d) { return d.value; })
-        .enter().append("rect")
-        .attr("class", function (d) { return d.genre.replaceAll(" ", ""); })
-        .attr("width", x1.bandwidth())
-        .attr("x", function (d) { return x1(d.genre); })
-        .style("fill", function (d) { return color(d.genre); })
-        .attr("y", function (d) { return y(0); })
-        .attr("height", function (d) { return height - y(0); })
-        .on("mouseover", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
+    // Draw the line
+    svg.selectAll(".line")
+        .data(sumstat)
+        .enter()
+        .append("path")
+        .attr("fill", "none")
+        .attr("stroke", function(d){ return color(d.key) })
+        .attr("stroke-width", 1.5)
+        .attr("d", function(d){
+            return d3.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return y(+d.earnings); })
+            (d.values)
         })
-        .on("mouseout", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
-        });
 
-
-    slice.selectAll("rect")
-        .transition()
-        .delay(function (d) { return Math.random() * 1000; })
-        .duration(1000)
-        .attr("y", function (d) { return y(d.totalEarnings); })
-        .attr("height", function (d) { return height - y(d.totalEarnings); });
+    // Add dots
+    svg.append('g')
+        .selectAll("dot")
+        .data(filteredData)
+        .enter()
+        .append("circle")
+            .attr("cx", function (d) { return x(d.year); } )
+            .attr("cy", function (d) { return y(d.earnings); } )
+            .attr("r", 2)
+            .style("fill", function(d){ return color(d.genre) })
 
     //Legend
     var legend = svg.selectAll(".legend")
-        .data(Object.keys(groupGenreTotalEarnings))
+        .data(genres)
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; })
@@ -133,4 +117,5 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
         .text(function (d) { return d; });
 
     legend.transition().duration(500).delay(function (d, i) { return 1300 + 100 * i; }).style("opacity", "1");
+
 }

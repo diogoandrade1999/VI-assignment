@@ -23,8 +23,10 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
             });
         }
     });
-    groupData.sort((a, b) => (a.totalEarnings > b.totalEarnings) ? 1 : ((b.totalEarnings > a.totalEarnings) ? -1 : 0));
+    groupData.sort((a, b) => (a.earnings > b.earnings) ? 1 : ((b.earnings > a.earnings) ? -1 : 0));
+    //console.log(groupData)
     groupData = groupData.slice(groupData.length - 10);
+    
 
     // clean draw
     svg2.selectAll("*").remove();

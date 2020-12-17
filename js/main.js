@@ -9,55 +9,64 @@ Array.max = array => {
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 
-d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportData.csv", function (data) {
-    if (1998 <= +data.ReleaseDate && +data.ReleaseDate <= 2019) {
+d3.csv("data/parsedData.csv", function (data) {
+    if (1998 <= +data.Year && +data.Year <= 2019) {
         return {
             genre: data.Genre,
             game: data.Game,
-            releaseDate: +data.ReleaseDate,
-            totalEarnings: +data.TotalEarnings,
-            onlineEarnings: +data.OnlineEarnings,
-            totalPlayers: +data.TotalPlayers,
-            totalTournaments: +data.TotalTournaments
+            year: +data.Year,
+            earnings: +data.Earnings,
+            players: +data.Players,
+            tournaments: +data.Tournaments
         }
     }
 }).then(data => {
-    var groupGenreTotalEarnings = {};
-    var groupGameTotalEarnings = {};
+    var groupGenreEarnings = {};
+    var groupGameEarnings = {};
+    var genreData = [];
     var genreList = [];
-    var releaseDateList = [];
+    var yearList = [];
     data.forEach(d => {
         var genre = d.genre;
         var game = d.game;
-        var totalEarnings = d.totalEarnings;
-        var releaseDate = d.releaseDate;
-        if (!(genre in groupGenreTotalEarnings)) {
-            groupGenreTotalEarnings[genre] = {};
+        var earnings = d.earnings;
+        var year = d.year;
+        if (!(genre in groupGenreEarnings)) {
+            groupGenreEarnings[genre] = {};
         }
-        if (!(releaseDate in groupGenreTotalEarnings[genre])) {
-            groupGenreTotalEarnings[genre][releaseDate] = 0;
+        if (!(year in groupGenreEarnings[genre])) {
+            groupGenreEarnings[genre][year] = 0;
         }
-        groupGenreTotalEarnings[genre][releaseDate] += totalEarnings;
+        groupGenreEarnings[genre][year] += earnings;
 
-        if (!(releaseDate in groupGameTotalEarnings)) {
-            groupGameTotalEarnings[releaseDate] = [];
+        if (!(year in groupGameEarnings)) {
+            groupGameEarnings[year] = [];
         }
-        groupGameTotalEarnings[releaseDate].push({ "game": game, "totalEarnings": totalEarnings, "genre": genre });
+        
+        groupGameEarnings[year].push({ "game": game, "earnings": earnings, "genre": genre });
         if (!genreList.includes(genre)) {
             genreList.push(genre);
         }
-        if (!releaseDateList.includes(releaseDate)) {
-            releaseDateList.push(releaseDate);
+        if (!yearList.includes(year)) {
+            yearList.push(year);
         }
     });
-    const minMaxReleaseDate = [Array.min(releaseDateList), Array.max(releaseDateList)];
+
+    Object.keys(groupGenreEarnings).forEach(genre => {
+        Object.keys(groupGenreEarnings[genre]).forEach(releaseDate => {
+            genreData.push({ "genre": genre, "year": releaseDate, "earnings": groupGenreEarnings[genre][releaseDate]});
+        });
+    });
+
+    const minMaxYear = [Array.min(yearList), Array.max(yearList)];
 
     // init
-    $("#min-year").html(minMaxReleaseDate[0]);
-    $("#max-year").html(minMaxReleaseDate[1]);
+    $("#min-year").html(minMaxYear[0]);
+    $("#max-year").html(minMaxYear[1]);
     makeList(genreList);
-    drawGenreTotalEarnings(minMaxReleaseDate, groupGenreTotalEarnings);
-    drawGameTotalEarnings(minMaxReleaseDate, groupGameTotalEarnings);
+    //console.log(data);
+    drawGenreTotalEarnings(minMaxYear, yearList.sort(), genreData);
+    drawGameTotalEarnings(minMaxYear, groupGameEarnings);
 
     $('#videogame-genre-list input:checkbox').on('click', function () {
         console.log(this);
@@ -70,17 +79,17 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportDa
 
     $("#slider").slider({
         range: true,
-        min: minMaxReleaseDate[0],
-        max: minMaxReleaseDate[1],
-        values: minMaxReleaseDate,
+        min: minMaxYear[0],
+        max: minMaxYear[1],
+        values: minMaxYear,
         step: 1,
         slide: function (event, ui) {
             // labels
             $("#min-year").html(ui.values[0]);
             $("#max-year").html(ui.values[1]);
             // draw
-            drawGenreTotalEarnings([ui.values[0], ui.values[1]], groupGenreTotalEarnings);
-            drawGameTotalEarnings([ui.values[0], ui.values[1]], groupGameTotalEarnings);
+            drawGenreTotalEarnings([ui.values[0], ui.values[1]], yearList.sort(), genreData);
+            drawGameTotalEarnings([ui.values[0], ui.values[1]], groupGameEarnings);
         }
     });
 
