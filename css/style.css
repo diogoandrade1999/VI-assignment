@@ -22,8 +22,7 @@ body {
     
 }
 
-#chart-year-earning,
-#chart-game-earning {
+.chart {
     border: 2px solid black;
     margin: 20px;
     min-width: 1480px;

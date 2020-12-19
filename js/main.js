@@ -6,6 +6,16 @@ Array.max = array => {
     return Math.max.apply(Math, array);
 };
 
+Array.remove = (array, ignore) => {
+    var new_array = [];
+    array.forEach(element => {
+        if (element != ignore) {
+            new_array.push(element);
+        }
+    });
+    return new_array
+};
+
 const getObjectsWithHighestValue = (o, n) => {
     var keys = Object.keys(o);
     keys.sort(function(a,b){
@@ -175,22 +185,27 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportDa
         }
     });
     const minMaxReleaseDate = [Array.min(releaseDateList), Array.max(releaseDateList)];
+    var groupTournamentsEarnings = {};
 
     // init
     if (window.location.pathname.includes('/graphics.html')) {
         $("#min-year").html(minMaxReleaseDate[0]);
         $("#max-year").html(minMaxReleaseDate[1]);
         makeList(genreList);
-        drawGenreTotalEarnings(minMaxReleaseDate, groupGenreTotalEarnings);
-        drawGameTotalEarnings(minMaxReleaseDate, groupGameTotalEarnings);
+        drawGenreTotalEarnings(minMaxReleaseDate, groupGenreTotalEarnings, genreList);
+        drawGameTotalEarnings(minMaxReleaseDate, groupGameTotalEarnings, genreList);
 
-        $('#videogame-genre-list input:checkbox').on('click', function () {
-            console.log(this);
-            if ($(this).attr("id") == 'genre-all') {
-                $('#videogame-genre-list input:checkbox').not(this).prop("checked", this.checked);
+        $('input[name ="genre"]').on('click', function () {
+            if ($(this).attr("checked")) {
+                genreList = Array.remove(genreList, $(this).val());
             } else {
-                $(this).attr("checked", !$(this).attr("checked"));
+                genreList.push($(this).val());
             }
+            $(this).attr("checked", !$(this).attr("checked"));
+            drawGenreTotalEarnings([$("#min-year").text(), $("#max-year").text()], groupGenreTotalEarnings, genreList);
+            drawGameTotalEarnings([$("#min-year").text(), $("#max-year").text()], groupGameTotalEarnings, genreList);
+            drawTournamentsEarnings([$("#min-year").text(), $("#max-year").text()], groupTournamentsEarnings, genreList);
+            drawGenreTournamentsTotalEarnings([$("#min-year").text(), $("#max-year").text()], groupTournamentsEarnings, 4, genreList);
         });
 
         $("#slider").slider({
@@ -204,39 +219,43 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/GeneralEsportDa
                 $("#min-year").html(ui.values[0]);
                 $("#max-year").html(ui.values[1]);
                 // draw
-                drawGenreTotalEarnings([ui.values[0], ui.values[1]], groupGenreTotalEarnings);
-                drawGameTotalEarnings([ui.values[0], ui.values[1]], groupGameTotalEarnings);
+                drawGenreTotalEarnings([ui.values[0], ui.values[1]], groupGenreTotalEarnings, genreList);
+                drawGameTotalEarnings([ui.values[0], ui.values[1]], groupGameTotalEarnings, genreList);
+                drawTournamentsEarnings([ui.values[0], ui.values[1]], groupTournamentsEarnings, genreList);
+                drawGenreTournamentsTotalEarnings([ui.values[0], ui.values[1]], groupTournamentsEarnings, 4, genreList);
             }
         });
     } else {
-        drawGameTotalEarnings([2019, 2019], groupGameTotalEarnings);
+        drawGameTotalEarnings([2019, 2019], groupGameTotalEarnings, genreList);
     }
-});
 
-d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/TournamentsData.csv", function (data) {
-    if (1998 <= +data.Year && +data.Year <= 2019) {
-        return {
-            game: data.Game,
-            genre: data.Genre,
-            year: +data.Year,
-            earnings: +data.Earnings,
-            players: +data.Players,
-            tournaments: +data.Tournaments
+    d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/TournamentsData.csv", function (data) {
+        if (1998 <= +data.Year && +data.Year <= 2019) {
+            return {
+                game: data.Game,
+                genre: data.Genre,
+                year: +data.Year,
+                earnings: +data.Earnings,
+                players: +data.Players,
+                tournaments: +data.Tournaments
+            }
         }
-    }
-}).then(data => {
-    var groupTournamentsEarnings = {};
-    data.forEach(d => {
-        var year = d.year;
-        if (!(year in groupTournamentsEarnings)) {
-            groupTournamentsEarnings[year] = [];
+    }).then(data => {
+        data.forEach(d => {
+            var year = d.year;
+            if (!(year in groupTournamentsEarnings)) {
+                groupTournamentsEarnings[year] = [];
+            }
+            groupTournamentsEarnings[year].push(d);
+        });
+
+        // init
+        if (!window.location.pathname.includes('/graphics.html')) {
+            drawTournamentsEarnings([2019, 2019], groupTournamentsEarnings, genreList);
+            drawGenreTournamentsTotalEarnings([2019, 2019], groupTournamentsEarnings, 4, genreList);
+        } else {
+            drawTournamentsEarnings(minMaxReleaseDate, groupTournamentsEarnings, genreList);
+            drawGenreTournamentsTotalEarnings(minMaxReleaseDate, groupTournamentsEarnings, 4, genreList);
         }
-        groupTournamentsEarnings[year].push(d);
     });
-
-    // init
-    if (!window.location.pathname.includes('/graphics.html')) {
-        drawTournamentsEarnings([2019, 2019], groupTournamentsEarnings);
-        drawGenreTournamentsTotalEarnings([2019, 2019], groupTournamentsEarnings);
-    }
 });

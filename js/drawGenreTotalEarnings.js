@@ -12,20 +12,22 @@ var svg = d3.select("#chart-year-earning")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
+const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings, genreList) => {
     // data
     var groupData = {};
     var totalEarningsList = [];
     Object.keys(groupGenreTotalEarnings).forEach(genre => {
-        Object.keys(groupGenreTotalEarnings[genre]).forEach(releaseDate => {
-            if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
-                totalEarningsList.push(groupGenreTotalEarnings[genre][releaseDate]);
-                if (!(releaseDate in groupData)) {
-                    groupData[releaseDate] = [];
+        if (genreList.includes(genre)) {
+            Object.keys(groupGenreTotalEarnings[genre]).forEach(releaseDate => {
+                if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
+                    totalEarningsList.push(groupGenreTotalEarnings[genre][releaseDate]);
+                    if (!(releaseDate in groupData)) {
+                        groupData[releaseDate] = [];
+                    }
+                    groupData[releaseDate].push({ "genre": genre, "totalEarnings": groupGenreTotalEarnings[genre][releaseDate] });
                 }
-                groupData[releaseDate].push({ "genre": genre, "totalEarnings": groupGenreTotalEarnings[genre][releaseDate] });
-            }
-        });
+            });
+        }
     });
     var releaseDates = Object.keys(groupData);
 
@@ -97,7 +99,6 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
                 d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
             });
 
-
     slice.selectAll("rect")
         .transition()
         .delay(function (d) { return Math.random() * 1000; })
@@ -107,7 +108,7 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
 
     //Legend
     var legend = svg.selectAll(".legend")
-        .data(Object.keys(groupGenreTotalEarnings))
+        .data(genreList)
         .enter()
         .append("g")
             .attr("class", "legend")

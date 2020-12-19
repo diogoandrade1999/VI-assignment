@@ -13,13 +13,15 @@ var svg2 = d3.select("#chart-game-earning")
         "translate(" + margin2.left + "," + margin2.top + ")");
 
 
-const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
+const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings, genreList) => {
     // data
     var groupData = [];
     Object.keys(groupGameTotalEarnings).forEach(releaseDate => {
         if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
             groupGameTotalEarnings[releaseDate].forEach(data => {
-                groupData.push(data);
+                if (genreList.includes(data.genre)) {
+                    groupData.push(data);
+                }
             });
         }
     });

@@ -27,20 +27,22 @@ var svg4 = d3.select("#chart-genre-earning")
         .attr("transform",`translate(${width4 / 2}, ${height4 / 2})`);
 
 
-const drawGenreTournamentsTotalEarnings = (minMaxReleaseDate, drawGenreTournamentsTotalEarnings) => {
+const drawGenreTournamentsTotalEarnings = (minMaxReleaseDate, drawGenreTournamentsTotalEarnings, numGenre, genreList) => {
     // data
     var groupData = {};
     Object.keys(drawGenreTournamentsTotalEarnings).forEach(releaseDate => {
         if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
             drawGenreTournamentsTotalEarnings[releaseDate].forEach(data => {
-                if (!(data.genre in groupData)) {
-                    groupData[data.genre] = 0;
+                if (genreList.includes(data.genre)) {
+                    if (!(data.genre in groupData)) {
+                        groupData[data.genre] = 0;
+                    }
+                    groupData[data.genre] += data.earnings;
                 }
-                groupData[data.genre] += data.earnings;
             });
         }
     });
-    groupData = pie(d3.entries(getObjectsWithHighestValue(groupData, 4)));
+    groupData = pie(d3.entries(getObjectsWithHighestValue(groupData, numGenre)));
 
     // clean draw
     svg4.selectAll("*").remove();
@@ -54,14 +56,29 @@ const drawGenreTournamentsTotalEarnings = (minMaxReleaseDate, drawGenreTournamen
             .attr('fill', function(d){ return color(d.data.key); })
             .attr("stroke", "white")
             .style("stroke-width", "2px")
-            .style("opacity", 0.7);
+            .style("opacity", 0.7)
+            .attr("class", function (d) { return "bar " + d.data.key.replaceAll(" ", ""); })
+            .style("fill", function (d) { return color(d.data.key); })
+            .on("mouseover", function (d) {
+                d3.selectAll("." + d.data.key.replaceAll(" ", "")).style("fill", d3.rgb(color(d.data.key)).darker(2));
+                if (!window.location.pathname.includes('/graphics.html')) {
+                    $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '" frameborder="0" allowfullscreen></iframe>');
+                    $('#game-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
+                    $('#game-description').html('<h1><b>' + d.game + '</b></h1>' + 
+                                                '</br><h3>' + games_data[d.game].description + '</h3>' +
+                                                '</br><h3><b>Genre:</b> ' + d.genre + '</h3>');
+                }
+            })
+            .on("mouseout", function (d) {
+                d3.selectAll("." + d.data.key.replaceAll(" ", "")).style("fill", color(d.data.key));
+            });
 
     // Legend Line
     svg4.selectAll('allPolylines')
         .data(groupData)
         .enter()
         .append('polyline')
-            .attr("stroke", "white")
+            .attr("stroke", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "white"; } return "black"; })
             .style("fill", "none")
             .attr("stroke-width", 1)
             .attr('points', function(d) {
@@ -78,7 +95,7 @@ const drawGenreTournamentsTotalEarnings = (minMaxReleaseDate, drawGenreTournamen
         .data(groupData)
         .enter()
         .append('text')
-            .style("fill", "white")
+            .style("fill", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "white"; } return "black"; })
             .text( function(d) { return d.data.key + ' (' + numFormatter(d.data.value) + ')'; } )
             .attr('transform', function(d) {
                 var pos = outerArc.centroid(d);

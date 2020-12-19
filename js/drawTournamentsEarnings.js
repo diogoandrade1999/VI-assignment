@@ -13,13 +13,15 @@ var svg3 = d3.select("#chart-tournament-earning")
         "translate(" + margin3.left + "," + margin3.top + ")");
 
 
-const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) => {
+const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings, genreList) => {
     // data
     var groupData = [];
     Object.keys(groupTournamentsEarnings).forEach(releaseDate => {
         if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
             groupTournamentsEarnings[releaseDate].forEach(data => {
-                groupData.push(data);
+                if (genreList.includes(data.genre)) {
+                    groupData.push(data);
+                }
             });
         }
     });
@@ -46,25 +48,26 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) =>
     // append the rectangles for the bar chart
     svg3.selectAll(".bar")
         .data(groupData)
-        .enter().append("rect")
-        .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
-        .style("fill", function (d) { return color(d.genre); })
-        .attr("width", function (d) { return x2(d.earnings); })
-        .attr("y", function (d) { return y2(d.game); })
-        .attr("height", y2.bandwidth())
-        .on("mouseover", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
-            if (!window.location.pathname.includes('/graphics.html')) {
-                $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '" frameborder="0" allowfullscreen></iframe>');
-                $('#tournament-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
-                $('#tournament-description').html('<h1><b>' + d.game + '</b></h1>' + 
-                                            '</br><h3>' + games_data[d.game].description + '</h3>' +
-                                            '</br><h3><b>Genre:</b> ' + d.genre + '</h3>');
-            }
-        })
-        .on("mouseout", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
-        });
+        .enter()
+        .append("rect")
+            .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
+            .style("fill", function (d) { return color(d.genre); })
+            .attr("width", function (d) { return x2(d.earnings); })
+            .attr("y", function (d) { return y2(d.game); })
+            .attr("height", y2.bandwidth())
+            .on("mouseover", function (d) {
+                d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
+                if (!window.location.pathname.includes('/graphics.html')) {
+                    $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data[d.game].trailer + '" frameborder="0" allowfullscreen></iframe>');
+                    $('#tournament-image').html('<img src="img/' + games_data[d.game].image + '" alt="game-image" width="620">');
+                    $('#tournament-description').html('<h1><b>' + d.game + '</b></h1>' + 
+                                                '</br><h3>' + games_data[d.game].description + '</h3>' +
+                                                '</br><h3><b>Genre:</b> ' + d.genre + '</h3>');
+                }
+            })
+            .on("mouseout", function (d) {
+                d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
+            });
 
     // add the x Axis
     svg3.append("g")
