@@ -6,6 +6,28 @@ Array.max = array => {
     return Math.max.apply(Math, array);
 };
 
+const getObjectsWithHighestValue = (o, n) => {
+    var keys = Object.keys(o);
+    keys.sort(function(a,b){
+      return o[b] - o[a];
+    });
+    keys = keys.slice(0, n);
+    var new_o = {};
+    keys.forEach(key => {
+        new_o[key] = o[key];
+    });
+    return new_o;
+}
+
+const numFormatter = num => {
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(0) + 'M';
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(0) + 'K';
+    }
+    return num;
+}
+
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 const games_data = {
@@ -215,5 +237,6 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/TournamentsData
     // init
     if (!window.location.pathname.includes('/graphics.html')) {
         drawTournamentsEarnings([2019, 2019], groupTournamentsEarnings);
+        drawGenreTournamentsTotalEarnings([2019, 2019], groupTournamentsEarnings);
     }
 });

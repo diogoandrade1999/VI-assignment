@@ -85,6 +85,10 @@ nav {
     padding-top: 80px;
 }
 
+.content {
+    margin-top: 50px;
+}
+
 #home {
     min-height: 100vh;
     background-image: url("../img/home.jpg");
@@ -110,44 +114,56 @@ nav {
     background-color: #01232c;
 }
 
-#game-container,
-#tournament-container {
-    display: flex;
-    grid-template-areas: "chartHome" "gameTrailer";
-    min-width: 1470px;
-}
-
-#game-content,
-#tournament-content {
+#game-content1,
+#tournament-content1 {
     margin-top: 20px;
     padding: 10px 50px 10px 50px;
     display: flex;
-    grid-template-areas: "gameImage" "gameDescription";
-    color: white;
+    grid-template-areas: "image" "description";
+}
+
+#game-content2,
+#tournament-content2 {
+    display: flex;
+    grid-template-areas: "chart" "trailer";
+    min-width: 1470px;
+}
+
+#tournament-content3 {
+    display: flex;
+    padding: 10px 50px 10px 50px;
+    grid-template-areas: "description" "chart";
+    min-width: 1470px;
 }
 
 #chart-game-earning,
-#chart-tournament-earning {
-    grid-area: "chartHome";
+#chart-tournament-earning,
+#chart-genre-earning {
+    grid-area: "chart";
 }
 
 #game-trailer,
 #tournament-trailer {
-    grid-area: "gameTrailer";
+    grid-area: "trailer";
 }
 
 #game-image,
 #tournament-image {
-    grid-area: "gameImage";
+    grid-area: "image";
+    margin-top: 30px;
 }
 
 #game-description,
-#tournament-description {
-    grid-area: "gameDescription";
+#tournament-description,
+#tournament-chart-description {
+    grid-area: "description";
+    width: 100%;
     justify-content: center;
     padding: 50px;
     text-align: justify;
     line-height: 1.6;
+    color: white;
+    min-width: 600px;
 }
 
 footer {

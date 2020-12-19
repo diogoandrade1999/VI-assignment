@@ -69,7 +69,7 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings) =>
     // add the x Axis
     svg3.append("g")
         .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
-        .attr("transform", "translate(0," + height2 + ")")
+        .attr("transform", "translate(0," + height3 + ")")
         .call(d3.axisBottom(x2).ticks(20, "s"));
 
     // add the y Axis

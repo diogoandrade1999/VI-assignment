@@ -6,11 +6,10 @@ var margin = { top: 20, right: 0, bottom: 30, left: 90 },
 // create svg
 var svg = d3.select("#chart-year-earning")
     .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
@@ -63,12 +62,12 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
         .style('opacity', '0')
         .call(yAxis)
         .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .style('font-weight', 'bold')
-        .text("Value");
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .style('font-weight', 'bold')
+            .text("Value");
 
     svg.select('.y').transition().duration(500).delay(1300).style('opacity', '1');
 
@@ -76,25 +75,27 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
 
     var slice = svg.selectAll(".slice")
         .data(groupData)
-        .enter().append("g")
-        .attr("class", "g")
-        .attr("transform", function (d) { return "translate(" + x0(d.key) + ",0)"; });
+        .enter()
+        .append("g")
+            .attr("class", "g")
+            .attr("transform", function (d) { return "translate(" + x0(d.key) + ",0)"; });
 
     slice.selectAll("rect")
         .data(function (d) { return d.value; })
-        .enter().append("rect")
-        .attr("class", function (d) { return d.genre.replaceAll(" ", ""); })
-        .attr("width", x1.bandwidth())
-        .attr("x", function (d) { return x1(d.genre); })
-        .style("fill", function (d) { return color(d.genre); })
-        .attr("y", function (d) { return y(0); })
-        .attr("height", function (d) { return height - y(0); })
-        .on("mouseover", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
-        })
-        .on("mouseout", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
-        });
+        .enter()
+        .append("rect")
+            .attr("class", function (d) { return d.genre.replaceAll(" ", ""); })
+            .attr("width", x1.bandwidth())
+            .attr("x", function (d) { return x1(d.genre); })
+            .style("fill", function (d) { return color(d.genre); })
+            .attr("y", function (d) { return y(0); })
+            .attr("height", function (d) { return height - y(0); })
+            .on("mouseover", function (d) {
+                d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
+            })
+            .on("mouseout", function (d) {
+                d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
+            });
 
 
     slice.selectAll("rect")
@@ -107,10 +108,11 @@ const drawGenreTotalEarnings = (minMaxReleaseDate, groupGenreTotalEarnings) => {
     //Legend
     var legend = svg.selectAll(".legend")
         .data(Object.keys(groupGenreTotalEarnings))
-        .enter().append("g")
-        .attr("class", "legend")
-        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; })
-        .style("opacity", "0");
+        .enter()
+        .append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; })
+            .style("opacity", "0");
 
     legend.append("rect")
         .attr("class", function (d) { return d.replaceAll(" ", ""); })
