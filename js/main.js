@@ -47,22 +47,22 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
 
     if (window.location.pathname.includes('/graphics.html')) {
         // init
-        $("#min-year").html(minMaxReleaseDate[0]);
-        $("#max-year").html(minMaxReleaseDate[1]);
+        $("#min-year").html(minMaxYear[0]);
+        $("#max-year").html(minMaxYear[1]);
         makeList(genreList);
 
         var workedData = genreDataLine(minMaxReleaseDate, minMaxYear, genreList, groupGenre);
-        drawLineChart(workedData, svg1, width1, height1, "Top 10 Tournaments Earnings per Game", null);
-        legendSvg(svg1, width1, genreList, null);
+        drawLineChart(workedData, svg1, width1, height1, null);
+        legendSvg(legendSvg1, width1, genreList, null);
 
         var workedData = gameDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGame, 10);
-        drawBarChart(workedData, svg2, width2, height2, "Top 10 Tournaments Earnings per Game", null);
+        drawBarChart(workedData, svg2, width2, height2, "Top 10 Games with the biggest Tournament Prize Pools in this period", null);
 
         var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 10);
-        drawBarChart(workedData, svg3, width3, height3, "Top 10 Tournaments Earnings per Genre", null);
+        drawBarChart(workedData, svg3, width3, height3, "Top 10 Genres with the biggest Tournament Prize Pools in this period", null);
 
-        var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 5);
-        drawPieChart(workedData, svg4, null);
+        /*var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 5);
+        drawPieChart(workedData, svg4, null);*/
 
         // Genre Checkbox List
         $('input[name ="genre"]').on('click', function () {
@@ -74,28 +74,28 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
             $(this).attr("checked", !$(this).attr("checked"));
 
             // draw
-            var releaseDates = [$("#min-year").text(), $("#max-year").text()];
+            var years = [$("#min-year").text(), $("#max-year").text()];
 
-            var workedData = genreDataLine(releaseDates, minMaxYear, genreList, groupGenre);
-            drawLineChart(workedData, svg1, width1, height1, "Top 10 Tournaments Earnings per Game", null);
-            legendSvg(svg1, width1, genreList, null);
+            var workedData = genreDataLine(minMaxReleaseDate, years, genreList, groupGenre);
+            drawLineChart(workedData, svg1, width1, height1, null);
+            legendSvg(legendSvg1, width1, genreList, null);
 
-            var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGame, 10);
-            drawBarChart(workedData, svg2, width2, height2, "Top 10 Tournaments Earnings per Game", null);
+            var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGame, 10);
+            drawBarChart(workedData, svg2, width2, height2, "Top 10 Games with the biggest Tournament Prize Pools in this period", null);
 
-            var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGenre, 10);
-            drawBarChart(workedData, svg3, width3, height3, "Top 10 Tournaments Earnings per Genre", null);
+            var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGenre, 10);
+            drawBarChart(workedData, svg3, width3, height3, "Top 10 Genres with the biggest Tournament Prize Pools in this period", null);
 
-            var workedData = genreDataBar(releaseDates, minMaxYear, genreList, groupGenre, 5);
-            drawPieChart(workedData, svg4, null);
+            /*var workedData = genreDataBar(minMaxReleaseDate, years, genreList, groupGenre, 5);
+            drawPieChart(workedData, svg4, null);*/
         });
 
         // Release Dates Slides
         $("#slider").slider({
             range: true,
-            min: minMaxReleaseDate[0],
-            max: minMaxReleaseDate[1],
-            values: minMaxReleaseDate,
+            min: minMaxYear[0],
+            max: minMaxYear[1],
+            values: minMaxYear,
             step: 1,
             slide: function (event, ui) {
                 // labels
@@ -103,20 +103,20 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
                 $("#max-year").html(ui.values[1]);
 
                 // draw
-                var releaseDates = [ui.values[0], ui.values[1]];
+                var years = [ui.values[0], ui.values[1]];
 
-                var workedData = genreDataLine(releaseDates, minMaxYear, genreList, groupGenre);
-                drawLineChart(workedData, svg1, width1, height1, "Top 10 Tournaments Earnings per Game", null);
-                legendSvg(svg1, width1, genreList, null);
+                var workedData = genreDataLine(minMaxReleaseDate, years, genreList, groupGenre);
+                drawLineChart(workedData, svg1, width1, height1, null);
+                legendSvg(legendSvg1, width1, genreList, null);
 
-                var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGame, 10);
-                drawBarChart(workedData, svg2, width2, height2, "Top 10 Tournaments Earnings per Game", null);
+                var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGame, 10);
+                drawBarChart(workedData, svg2, width2, height2, "Top 10 Games with the biggest Tournament Prize Pools in this period", null);
 
-                var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGenre, 10);
-                drawBarChart(workedData, svg3, width3, height3, "Top 10 Tournaments Earnings per Genre", null);
+                var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGenre, 10);
+                drawBarChart(workedData, svg3, width3, height3, "Top 10 Genres with the biggest Tournament Prize Pools in this period", null);
 
-                var workedData = genreDataBar(releaseDates, minMaxYear, genreList, groupGenre, 5);
-                drawPieChart(workedData, svg4, null);
+                /*var workedData = genreDataBar(minMaxReleaseDate, years, genreList, groupGenre, 5);
+                drawPieChart(workedData, svg4, null);*/
             }
         });
     } else {

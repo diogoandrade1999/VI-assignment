@@ -1,17 +1,24 @@
-const color = d3.scaleOrdinal(d3.schemeCategory10);
+const color = d3.scaleOrdinal(d3.schemePaired);
 
 // Parse the date
 const parseTime = d3.timeParse("%Y");
 
 // set the dimensions and margins of the graph
-var margin1 = { top: 20, right: 0, bottom: 30, left: 90 },
-    width1 = 1450 - margin1.left - margin1.right,
+var margin1 = { top: 20, right: 10, bottom: 30, left: 90 },
+    width1 = 1400 - margin1.left - margin1.right,
     height1 = 400 - margin1.top - margin1.bottom;
 
 // create svg
 var svg1 = d3.select("#chart-year-earning")
     .append("svg")
         .attr("width", width1 + margin1.left + margin1.right)
+        .attr("height", height1 + margin1.top + margin1.bottom)
+        .append("g")
+            .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
+
+var legendSvg1 = d3.select("#chart-year-earning")
+    .append("svg")
+        .attr("width", 250)
         .attr("height", height1 + margin1.top + margin1.bottom)
         .append("g")
             .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
@@ -95,7 +102,7 @@ const games_data = {
     "Auto Chess": {
         "image": "auto-chess.jpg",
         "trailer": "https://www.youtube.com/embed/XZoGA7_vtLw",
-        "description": ""
+        "description": "Dota Auto Chess is a strategy video game mod for the video game Dota 2. Developed by Drodo Studio and released in January 2019, the game features elements of chess and supports up to eight players. The popularity of the mod, with it having over eight million players by May 2019, led to the creation of the auto battler genre that had a number of other games being released. Later in 2019, Drodo Studio developed a standalone version known simply as Auto Chess, while Valve, the developer of Dota 2, developed their own standalone version known as Dota Underlords."
     },
     "Teamfight Tactics": {
         "image": "teamfight-tactics.png",

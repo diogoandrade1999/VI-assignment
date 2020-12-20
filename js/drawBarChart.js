@@ -22,7 +22,7 @@ const drawBarChart = (groupData, svg, width, height, title, id) => {
         .enter()
         .append("rect")
             .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
-            .style("fill", function (d) { return color(d.genre); })
+            .style("fill", function (d) { return color(d.genre.replaceAll(" ", "")); })
             .attr("width", function (d) { return x(d.totalEarnings); })
             .attr("y", function (d) { return y(d.name); })
             .attr("height", y.bandwidth())

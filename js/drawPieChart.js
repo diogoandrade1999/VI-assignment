@@ -12,7 +12,7 @@ const drawPieChart = (groupData, svg, id) => {
         .append('path')
             .attr('d', arc)
             .attr("class", function (d) { return "bar " + d.data.value.genre.replaceAll(" ", ""); })
-            .attr('fill', function(d){ return color(d.data.value.genre); })
+            .attr('fill', function(d){ return color(d.data.value.genre.replaceAll(" ", "")); })
             .attr("stroke", "white")
             .style("stroke-width", "2px")
             .style("opacity", 0.7)

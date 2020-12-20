@@ -5,29 +5,34 @@
 }
 
 body {
-    background-color: rgb(122, 122, 122);
+    background-color: rgb(12, 21, 29);
 }
 
-#title {
-    min-width: 1480px;
-    margin: 20px;
-    margin-top: 100px;
-    display: flex;
-    justify-content: center;
-    background-color: #3498DB;
-    color: white;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 15px;
-    
+#content {
+    margin-top: 90px;
 }
 
 .chart {
-    border: 2px solid black;
     margin: 20px;
     min-width: 1480px;
-    background-color:  white;
     border-radius: 10px;
     display: flex;
     justify-content: center;
+}
+
+footer {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    height: 4vh;
+}
+
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
 }

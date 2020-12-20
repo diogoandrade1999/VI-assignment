@@ -27,8 +27,8 @@ const numFormatter = num => {
 }
 
 const mouseOver = (d, id) => {
-    d3.selectAll(".bar." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre)).darker(2));
-    d3.selectAll(".line." + d.genre.replaceAll(" ", "")).style("stroke", d3.rgb(color(d.genre)).darker(2));
+    d3.selectAll(".bar." + d.genre.replaceAll(" ", "")).style("fill", d3.rgb(color(d.genre.replaceAll(" ", ""))).darker(2));
+    d3.selectAll(".line." + d.genre.replaceAll(" ", "")).style("stroke", d3.rgb(color(d.genre.replaceAll(" ", ""))).darker(2));
     if (id) {
         $('#' + id + '-trailer').html('<iframe width="800" height="390" src="' + games_data[d.name].trailer + '" frameborder="0" allowfullscreen></iframe>');
         $('#' + id + '-image').html('<img src="img/' + games_data[d.name].image + '" alt="game-image" width="620">');
@@ -39,8 +39,8 @@ const mouseOver = (d, id) => {
 }
 
 const mouseOut = genre => {
-    d3.selectAll(".bar." + genre.replaceAll(" ", "")).style("fill", color(genre));
-    d3.selectAll(".line." + genre.replaceAll(" ", "")).style("stroke", color(genre));
+    d3.selectAll(".bar." + genre.replaceAll(" ", "")).style("fill", color(genre.replaceAll(" ", "")));
+    d3.selectAll(".line." + genre.replaceAll(" ", "")).style("stroke", color(genre.replaceAll(" ", "")));
 }
 
 const legendSvg = (svg, width, genreList, id) => {
@@ -58,7 +58,7 @@ const legendSvg = (svg, width, genreList, id) => {
         .attr("x", width - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", function (d) { return color(d); })
+        .style("fill", function (d) { return color(d.replaceAll(" ", "")); })
         .on("mouseover", function (d) { return mouseOver({"genre": d}, id)} )
         .on("mouseout", function (d) { return mouseOut(d)} );
 
@@ -124,31 +124,32 @@ const genreDataLine = (minMaxReleaseDate, minMaxYear, genreList, genreData) => {
     var years = [];
     var maxEarnings = 0;
     Object.entries(genreData).forEach(([genre, data]) => {
-        var totalEarnings = {};
-        data.forEach(d => {
-            if (minMaxReleaseDate[0] <= d.releaseDate &&
-                d.releaseDate <= minMaxReleaseDate[1] &&
-                minMaxYear[0] <= d.year &&
-                d.year <= minMaxYear[1] &&
-                genreList.includes(d.genre)) {
-                    if (!(d.year in totalEarnings)) {
-                        totalEarnings[d.year] = 0;
-                    }
-                    totalEarnings[d.year] += d.totalEarnings;
-                    if (!years.includes(d.year)) {
-                        years.push(d.year);
-                    }
-            }
-        });
-        Object.entries(totalEarnings).forEach(([year, earnings]) => {
-            if (!(genre in groupData)) {
-                groupData[genre] = [];
-            }
-            groupData[genre].push({ "year": year, "totalEarnings": earnings });
-            if (earnings > maxEarnings) {
-                maxEarnings = earnings;
-            }
-        });
+        if (genreList.includes(genre)) {
+            var totalEarnings = {};
+            data.forEach(d => {
+                if (minMaxReleaseDate[0] <= d.releaseDate &&
+                    d.releaseDate <= minMaxReleaseDate[1] &&
+                    minMaxYear[0] <= d.year &&
+                    d.year <= minMaxYear[1]) {
+                        if (!(d.year in totalEarnings)) {
+                            totalEarnings[d.year] = 0;
+                        }
+                        totalEarnings[d.year] += d.totalEarnings;
+                        if (!years.includes(d.year)) {
+                            years.push(d.year);
+                        }
+                }
+            });
+            Object.entries(totalEarnings).forEach(([year, earnings]) => {
+                if (!(genre in groupData)) {
+                    groupData[genre] = [];
+                }
+                groupData[genre].push({ "year": year, "totalEarnings": earnings });
+                if (earnings > maxEarnings) {
+                    maxEarnings = earnings;
+                }
+            });
+        }
     });
     return [groupData, years, maxEarnings];
 }
