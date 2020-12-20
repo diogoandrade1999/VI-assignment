@@ -13,19 +13,19 @@ var svg3 = d3.select("#chart-tournament-earning")
         "translate(" + margin3.left + "," + margin3.top + ")");
 
 
-const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings, genreList) => {
+const drawGameTournamentsTotalEarnings = (minMaxReleaseDate, minMaxYear, data, genreList) => {
     // data
     var groupData = [];
-    Object.keys(groupTournamentsEarnings).forEach(releaseDate => {
-        if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
-            groupTournamentsEarnings[releaseDate].forEach(data => {
-                if (genreList.includes(data.genre)) {
-                    groupData.push(data);
-                }
-            });
+    data.forEach(d => {
+        if (minMaxReleaseDate[0] <= d.releaseDate &&
+            d.releaseDate <= minMaxReleaseDate[1] &&
+            minMaxYear[0] <= d.year &&
+            d.year <= minMaxYear[1] &&
+            genreList.includes(d.genre)) {
+                groupData.push(d);
         }
     });
-    groupData.sort((a, b) => (a.earnings > b.earnings) ? 1 : ((b.earnings > a.earnings) ? -1 : 0));
+    groupData.sort((a, b) => (a.totalEarnings > b.totalEarnings) ? 1 : ((b.totalEarnings > a.totalEarnings) ? -1 : 0));
     groupData = groupData.slice(groupData.length - 10);
 
     // clean draw
@@ -35,7 +35,7 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings, ge
     var x2 = d3.scaleLinear()
         .range([0, width2])
         .domain([0, d3.max(groupData, function (d) {
-            return d.earnings;
+            return d.totalEarnings;
         })]);
 
     var y2 = d3.scaleBand()
@@ -52,7 +52,7 @@ const drawTournamentsEarnings = (minMaxReleaseDate, groupTournamentsEarnings, ge
         .append("rect")
             .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
             .style("fill", function (d) { return color(d.genre); })
-            .attr("width", function (d) { return x2(d.earnings); })
+            .attr("width", function (d) { return x2(d.totalEarnings); })
             .attr("y", function (d) { return y2(d.game); })
             .attr("height", y2.bandwidth())
             .on("mouseover", function (d) {

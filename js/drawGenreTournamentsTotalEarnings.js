@@ -27,7 +27,7 @@ var svg4 = d3.select("#chart-genre-earning")
         .attr("transform",`translate(${width4 / 2}, ${height4 / 2})`);
 
 
-const drawGenreTournamentsTotalEarnings = (minMaxReleaseDate, drawGenreTournamentsTotalEarnings, numGenre, genreList) => {
+const drawGenreTournamentsTotalEarnings = (minMaxReleaseDate, minMaxYear, data, genreList, numGenre) => {
     // data
     var groupData = {};
     Object.keys(drawGenreTournamentsTotalEarnings).forEach(releaseDate => {

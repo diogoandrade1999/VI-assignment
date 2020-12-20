@@ -9,21 +9,28 @@ var svg2 = d3.select("#chart-game-earning")
     .attr("width", width2 + margin2.left + margin2.right)
     .attr("height", height2 + margin2.top + margin2.bottom)
     .append("g")
-    .attr("transform",
-        "translate(" + margin2.left + "," + margin2.top + ")");
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
 
-const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings, genreList) => {
+const drawGameTotalEarnings = (minMaxReleaseDate, minMaxYear, data, genreList) => {
     // data
     var groupData = [];
-    Object.keys(groupGameTotalEarnings).forEach(releaseDate => {
-        if (minMaxReleaseDate[0] <= releaseDate && releaseDate <= minMaxReleaseDate[1]) {
-            groupGameTotalEarnings[releaseDate].forEach(data => {
-                if (genreList.includes(data.genre)) {
-                    groupData.push(data);
-                }
-            });
-        }
+    Object.entries(data).forEach(([game, data]) => {
+        var totalEarnings = 0;
+        var genre = null;
+        data.forEach(d => {
+            if (minMaxReleaseDate[0] <= d.releaseDate &&
+                d.releaseDate <= minMaxReleaseDate[1] &&
+                minMaxYear[0] <= d.year &&
+                d.year <= minMaxYear[1] &&
+                genreList.includes(d.genre)) {
+                    totalEarnings += d.totalEarnings;
+                    if (!genre) {
+                        genre = d.genre;
+                    }
+            }
+        });
+        groupData.push({ "game": game, "genre": genre, "totalEarnings": totalEarnings });
     });
     groupData.sort((a, b) => (a.totalEarnings > b.totalEarnings) ? 1 : ((b.totalEarnings > a.totalEarnings) ? -1 : 0));
     groupData = groupData.slice(groupData.length - 10);
