@@ -1,5 +1,4 @@
-// https://diogoandrade1999.github.io/esports.earnings/
-d3.csv("data/EsportsData.csv", function (data) {
+d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv", function (data) {
     if (1998 <= +data.Release && +data.Release <= 2019) {
         return {
             game: data.Game,
