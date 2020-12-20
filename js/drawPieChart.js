@@ -11,16 +11,13 @@ const drawPieChart = (groupData, svg, id) => {
         .enter()
         .append('path')
             .attr('d', arc)
+            .attr("class", function (d) { return "bar " + d.data.value.genre.replaceAll(" ", ""); })
             .attr('fill', function(d){ return color(d.data.value.genre); })
             .attr("stroke", "white")
             .style("stroke-width", "2px")
             .style("opacity", 0.7)
-            .attr("class", function (d) { return "bar " + d.data.value.genre.replaceAll(" ", ""); })
-            .style("fill", function (d) { return color(d.data.value.genre); })
             .on("mouseover",  function (d) { return mouseOver(d.data.value, id)} )
-            .on("mouseout", function (d) {
-                d3.selectAll("." + d.data.value.genre.replaceAll(" ", "")).style("fill", color(d.data.value.genre));
-            });
+            .on("mouseout", function (d) { return mouseOut(d.data.value.genre)} );
 
     // Legend Line
     svg.selectAll('allPolylines')

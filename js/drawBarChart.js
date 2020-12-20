@@ -16,19 +16,18 @@ const drawBarChart = (groupData, svg, width, height, title, id) => {
             return d.name;
         }));
 
-    // append the rectangles for the bar chart
+    // append the bars
     svg.selectAll(".bar")
         .data(groupData)
-        .enter().append("rect")
-        .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
-        .style("fill", function (d) { return color(d.genre); })
-        .attr("width", function (d) { return x(d.totalEarnings); })
-        .attr("y", function (d) { return y(d.name); })
-        .attr("height", y.bandwidth())
-        .on("mouseover", function (d) { return mouseOver(d, id)} )
-        .on("mouseout", function (d) {
-            d3.selectAll("." + d.genre.replaceAll(" ", "")).style("fill", color(d.genre));
-        });
+        .enter()
+        .append("rect")
+            .attr("class", function (d) { return "bar " + d.genre.replaceAll(" ", ""); })
+            .style("fill", function (d) { return color(d.genre); })
+            .attr("width", function (d) { return x(d.totalEarnings); })
+            .attr("y", function (d) { return y(d.name); })
+            .attr("height", y.bandwidth())
+            .on("mouseover", function (d) { return mouseOver(d, id)} )
+            .on("mouseout", function (d) { return mouseOut(d.genre)} );
 
     // add the x Axis
     svg.append("g")
@@ -41,6 +40,7 @@ const drawBarChart = (groupData, svg, width, height, title, id) => {
         .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
         .call(d3.axisLeft(y));
 
+    // add the title
     svg.append("text")
         .attr("x", width / 2 )
         .attr("y", -10)

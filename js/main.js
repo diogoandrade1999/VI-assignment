@@ -52,16 +52,17 @@ d3.csv("data/EsportsData.csv", function (data) {
         $("#max-year").html(minMaxReleaseDate[1]);
         makeList(genreList);
 
-        var workedData = genreData(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 10);
+        var workedData = genreDataLine(minMaxReleaseDate, minMaxYear, genreList, groupGenre);
         drawLineChart(workedData, svg1, width1, height1, "Top 10 Tournaments Earnings per Game", null);
+        legendSvg(svg1, width1, genreList, null);
 
-        var workedData = gameData(minMaxReleaseDate, minMaxYear, genreList, groupGame, 10);
+        var workedData = gameDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGame, 10);
         drawBarChart(workedData, svg2, width2, height2, "Top 10 Tournaments Earnings per Game", null);
 
-        var workedData = genreData(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 10);
+        var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 10);
         drawBarChart(workedData, svg3, width3, height3, "Top 10 Tournaments Earnings per Genre", null);
 
-        var workedData = genreData(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 5);
+        var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 5);
         drawPieChart(workedData, svg4, null);
 
         // Genre Checkbox List
@@ -76,15 +77,17 @@ d3.csv("data/EsportsData.csv", function (data) {
             // draw
             var releaseDates = [$("#min-year").text(), $("#max-year").text()];
 
-            drawGenreTotalEarnings([$("#min-year").text(), $("#max-year").text()], groupGenre, genreList);
+            var workedData = genreDataLine(releaseDates, minMaxYear, genreList, groupGenre);
+            drawLineChart(workedData, svg1, width1, height1, "Top 10 Tournaments Earnings per Game", null);
+            legendSvg(svg1, width1, genreList, null);
 
-            var workedData = gameData(releaseDates, minMaxYear, genreList, groupGame, 10);
+            var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGame, 10);
             drawBarChart(workedData, svg2, width2, height2, "Top 10 Tournaments Earnings per Game", null);
 
-            var workedData = gameData(releaseDates, minMaxYear, genreList, groupGenre, 10);
+            var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGenre, 10);
             drawBarChart(workedData, svg3, width3, height3, "Top 10 Tournaments Earnings per Genre", null);
 
-            var workedData = genreData(releaseDates, minMaxYear, genreList, groupGenre, 5);
+            var workedData = genreDataBar(releaseDates, minMaxYear, genreList, groupGenre, 5);
             drawPieChart(workedData, svg4, null);
         });
 
@@ -103,27 +106,29 @@ d3.csv("data/EsportsData.csv", function (data) {
                 // draw
                 var releaseDates = [ui.values[0], ui.values[1]];
 
-                drawGenreTotalEarnings([ui.values[0], ui.values[1]], groupGenre, genreList);
+                var workedData = genreDataLine(releaseDates, minMaxYear, genreList, groupGenre);
+                drawLineChart(workedData, svg1, width1, height1, "Top 10 Tournaments Earnings per Game", null);
+                legendSvg(svg1, width1, genreList, null);
 
-                var workedData = gameData(releaseDates, minMaxYear, genreList, groupGame, 10);
+                var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGame, 10);
                 drawBarChart(workedData, svg2, width2, height2, "Top 10 Tournaments Earnings per Game", null);
 
-                var workedData = gameData(releaseDates, minMaxYear, genreList, groupGenre, 10);
+                var workedData = gameDataBar(releaseDates, minMaxYear, genreList, groupGenre, 10);
                 drawBarChart(workedData, svg3, width3, height3, "Top 10 Tournaments Earnings per Genre", null);
 
-                var workedData = genreData(releaseDates, minMaxYear, genreList, groupGenre, 5);
+                var workedData = genreDataBar(releaseDates, minMaxYear, genreList, groupGenre, 5);
                 drawPieChart(workedData, svg4, null);
             }
         });
     } else {
         // init
-        var workedData = gameData([2019, 2019], [2019, 2019], genreList, groupGame, 10);
+        var workedData = gameDataBar([2019, 2019], [2019, 2019], genreList, groupGame, 10);
         drawBarChart(workedData, svg2, width2, height2, "2019's Games Earnings", "game");
 
-        var workedData = gameData(minMaxReleaseDate, [2019, 2019], genreList, groupGame, 10);
+        var workedData = gameDataBar(minMaxReleaseDate, [2019, 2019], genreList, groupGame, 10);
         drawBarChart(workedData, svg3, width3, height3, "2019's Tournaments Earnings per Game", "tournament");
 
-        var workedData = genreData(minMaxReleaseDate, [2019, 2019], genreList, groupGenre, 4);
+        var workedData = genreDataBar(minMaxReleaseDate, [2019, 2019], genreList, groupGenre, 4);
         drawPieChart(workedData, svg4, null);
 
         $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Call of Duty: Modern Warfare"].trailer +'" frameborder="0" allowfullscreen></iframe>');
