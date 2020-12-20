@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: rgb(122, 122, 122);
+    background-color:  rgb(12, 21, 29);
 }
 
 #title {
@@ -20,16 +20,42 @@ body {
     border: 2px solid black;
     border-radius: 10px;
     padding: 15px;
-    
 }
 
 #chart-year-earning,
 #chart-game-earning {
-    border: 2px solid black;
     margin: 20px;
     min-width: 1480px;
-    background-color:  white;
     border-radius: 10px;
     display: flex;
     justify-content: center;
+}
+
+footer {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    height: 4vh;
+}
+
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+  }
+
+.axisWhite line{
+    stroke: white !important;
+}
+
+.axisWhite path{
+    stroke: white !important;
+}
+
+.axisWhite text{
+    fill: white !important;
 }

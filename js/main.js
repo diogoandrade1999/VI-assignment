@@ -68,14 +68,19 @@ d3.csv("data/parsedData.csv", function (data) {
     drawGenreTotalEarnings(minMaxYear, yearList.sort(), genreData);
     drawGameTotalEarnings(minMaxYear, groupGameEarnings);
 
-    $('#videogame-genre-list input:checkbox').on('click', function () {
+    $('#videogame-genre-list input:checkbox').on('click', function (e) {
         console.log(this);
         if ($(this).attr("id") == 'genre-all') {
             $('#videogame-genre-list input:checkbox').not(this).prop("checked", this.checked);
         } else {
             $(this).attr("checked", !$(this).attr("checked"));
         }
+        e.stopPropagation();
     });
+
+    $('#videogame-genre-list').on('click', function(e) {
+        e.stopPropagation();
+    })
 
     $("#slider").slider({
         range: true,

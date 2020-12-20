@@ -64,9 +64,11 @@ const drawGameTotalEarnings = (minMaxReleaseDate, groupGameTotalEarnings) => {
     // add the x Axis
     svg2.append("g")
         .attr("transform", "translate(0," + height2 + ")")
+        .attr("class", "axisWhite")
         .call(d3.axisBottom(x2));
 
     // add the y Axis
     svg2.append("g")
+        .attr("class", "axisWhite")
         .call(d3.axisLeft(y2));
 }

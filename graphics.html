@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESPORTS EARNINGS</title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/slider.css">
+</head>
+<body>
+    <header style="background: black;">
+        
+        <div id="logo">
+            <h3>ESPORTS EARNINGS</h3>
+        </div>
+        <div id="videogame-genre-list-container">
+            <button id="videogame-genre-btn">VideoGame Genre</button>
+            <ul id="videogame-genre-list" class="dropdown-content">
+                <li>
+                    <input type="checkbox" id="genre-all" name="genre" value="all" checked>
+                    <label for="genre-all">Select All</label>
+                </li>
+            </ul>
+        </div>
+        <div id="time-line-container">
+            <div id="time-line">
+                <div class="label-year" id="min-year"></div>
+                <div id="slider"></div>
+                <div class="label-year" id="max-year"></div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="container" style="margin-top: 76px;">
+            <div id="content">
+                <div id="chart-year-earning"></div>
+                <div id="chart-game-earning"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>©2020 - Developed by Diogo Andrade and Rodrigo Oliveira</p>
+    </footer>
+
+    <script type="text/javascript" src="https://d3js.org/d3.v5.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/list.js"></script>
+    <script type="text/javascript" src="js/drawGenreTotalEarnings.js"></script>
+    <script type="text/javascript" src="js/drawGameTotalEarnings.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/header.js"></script>
+</body>
+</html>
