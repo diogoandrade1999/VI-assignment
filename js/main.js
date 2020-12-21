@@ -52,8 +52,8 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
         makeList(genreList);
 
         var workedData = genreDataLine(minMaxReleaseDate, minMaxYear, genreList, groupGenre);
-        drawLineChart(workedData, svg1, width1, height1, null);
-        legendSvg(legendSvg1, width1, genreList, null);
+        drawLineChart(workedData, svg1, width1, height1, margin1, "Evolution of tournament prize pools by genre", null);
+        legendSvg(legendSvg1, genreList, null);
 
         var workedData = gameDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGame, 10);
         drawBarChart(workedData, svg2, width2, height2, "Top 10 Games with the biggest Tournament Prize Pools in this period", null);
@@ -77,8 +77,8 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
             var years = [$("#min-year").text(), $("#max-year").text()];
 
             var workedData = genreDataLine(minMaxReleaseDate, years, genreList, groupGenre);
-            drawLineChart(workedData, svg1, width1, height1, null);
-            legendSvg(legendSvg1, width1, genreList, null);
+            drawLineChart(workedData, svg1, width1, height1, margin1, "Evolution of tournament prize pools by genre", null);
+            legendSvg(legendSvg1, genreList, null);
 
             var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGame, 10);
             drawBarChart(workedData, svg2, width2, height2, "Top 10 Games with the biggest Tournament Prize Pools in this period", null);
@@ -106,8 +106,8 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
                 var years = [ui.values[0], ui.values[1]];
 
                 var workedData = genreDataLine(minMaxReleaseDate, years, genreList, groupGenre);
-                drawLineChart(workedData, svg1, width1, height1, null);
-                legendSvg(legendSvg1, width1, genreList, null);
+                drawLineChart(workedData, svg1, width1, height1, margin1, "Evolution of tournament prize pools by genre", null);
+                legendSvg(legendSvg1, genreList, null);
 
                 var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGame, 10);
                 drawBarChart(workedData, svg2, width2, height2, "Top 10 Games with the biggest Tournament Prize Pools in this period", null);
@@ -122,10 +122,10 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
     } else {
         // init
         var workedData = gameDataBar([2019, 2019], [2019, 2019], genreList, groupGame, 10);
-        drawBarChart(workedData, svg2, width2, height2, "2019's Games Earnings", "game");
+        drawBarChart(workedData, svg2, width2, height2, "Biggest prize pools for Games released in 2019", "game");
 
         var workedData = gameDataBar(minMaxReleaseDate, [2019, 2019], genreList, groupGame, 10);
-        drawBarChart(workedData, svg3, width3, height3, "2019's Tournaments Earnings per Game", "tournament");
+        drawBarChart(workedData, svg3, width3, height3, "Top 10 Games with the biggest prize pools in 2019", "tournament");
 
         var workedData = genreDataBar(minMaxReleaseDate, [2019, 2019], genreList, groupGenre, 4);
         drawPieChart(workedData, svg4, null);

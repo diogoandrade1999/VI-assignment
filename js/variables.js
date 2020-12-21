@@ -4,9 +4,9 @@ const color = d3.scaleOrdinal(d3.schemePaired);
 const parseTime = d3.timeParse("%Y");
 
 // set the dimensions and margins of the graph
-var margin1 = { top: 20, right: 10, bottom: 30, left: 90 },
-    width1 = 1400 - margin1.left - margin1.right,
-    height1 = 400 - margin1.top - margin1.bottom;
+var margin1 = { top: 30, right: 30, bottom: 60, left: 90 },
+    width1 = 1240 - margin1.left - margin1.right,
+    height1 = 460 - margin1.top - margin1.bottom;
 
 // create svg
 var svg1 = d3.select("#chart-year-earning")
@@ -18,7 +18,7 @@ var svg1 = d3.select("#chart-year-earning")
 
 var legendSvg1 = d3.select("#chart-year-earning")
     .append("svg")
-        .attr("width", 250)
+        .attr("width", 290)
         .attr("height", height1 + margin1.top + margin1.bottom)
         .append("g")
             .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");

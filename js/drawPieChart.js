@@ -24,7 +24,7 @@ const drawPieChart = (groupData, svg, id) => {
         .data(groupData)
         .enter()
         .append('polyline')
-            .attr("stroke", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "white"; } return "black"; })
+            .attr("stroke", "white")
             .style("fill", "none")
             .attr("stroke-width", 1)
             .attr('points', function(d) {
@@ -41,7 +41,7 @@ const drawPieChart = (groupData, svg, id) => {
         .data(groupData)
         .enter()
         .append('text')
-            .style("fill", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "white"; } return "black"; })
+            .style("fill", "white")
             .text( function(d) { return d.data.value.name + ' (' + numFormatter(d.data.value.totalEarnings) + ')'; } )
             .attr('transform', function(d) {
                 var pos = outerArc.centroid(d);

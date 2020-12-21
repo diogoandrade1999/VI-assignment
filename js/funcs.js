@@ -43,19 +43,22 @@ const mouseOut = genre => {
     d3.selectAll(".line." + genre.replaceAll(" ", "")).style("stroke", color(genre.replaceAll(" ", "")));
 }
 
-const legendSvg = (svg, width, genreList, id) => {
+const legendSvg = (svg, genreList, id) => {
+    // clean draw
+    svg.selectAll("*").remove();
+
     //Legend
     var legend = svg.selectAll(".legend")
         .data(genreList)
         .enter()
         .append("g")
             .attr("class", "legend")
-            .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; })
+            .attr("transform", function (d, i) { return "translate(0," + i * 25 + ")"; })
             .style("opacity", "0");
 
     legend.append("rect")
         .attr("class", function (d) { return "bar " + d.replaceAll(" ", ""); })
-        .attr("x", width - 18)
+        .attr("x", 165)
         .attr("width", 18)
         .attr("height", 18)
         .style("fill", function (d) { return color(d.replaceAll(" ", "")); })
@@ -63,13 +66,18 @@ const legendSvg = (svg, width, genreList, id) => {
         .on("mouseout", function (d) { return mouseOut(d)} );
 
     legend.append("text")
-        .attr("x", width - 24)
+        .attr("x", 155)
         .attr("y", 9)
         .attr("dy", ".35em")
+        .style("fill", "white")
+        .style("font-size", "14px")
         .style("text-anchor", "end")
         .text(function (d) { return d; });
 
-    legend.transition().duration(10).delay(function (d, i) { return 1300 + 100 * i; }).style("opacity", "1");
+    legend.transition()
+        .duration(10)
+        .delay(function (d, i) { return 100 + 100 * i; })
+        .style("opacity", "1");
 }
 
 const gameDataBar = (minMaxReleaseDate, minMaxYear, genreList, gameData, numGames) => {
@@ -120,7 +128,7 @@ const genreDataBar = (minMaxReleaseDate, minMaxYear, genreList, genreData, numGe
 }
 
 const genreDataLine = (minMaxReleaseDate, minMaxYear, genreList, genreData) => {
-    var groupData = {};
+    var groupData = [];
     var years = [];
     var maxEarnings = 0;
     Object.entries(genreData).forEach(([genre, data]) => {
@@ -140,15 +148,14 @@ const genreDataLine = (minMaxReleaseDate, minMaxYear, genreList, genreData) => {
                         }
                 }
             });
+            var dataPoints = [];
             Object.entries(totalEarnings).forEach(([year, earnings]) => {
-                if (!(genre in groupData)) {
-                    groupData[genre] = [];
-                }
-                groupData[genre].push({ "year": year, "totalEarnings": earnings });
+                dataPoints.push({ "name": genre, "year": year, "totalEarnings": earnings });
                 if (earnings > maxEarnings) {
                     maxEarnings = earnings;
                 }
             });
+            groupData.push({ "name": genre, "datapoints": dataPoints });
         }
     });
     return [groupData, years, maxEarnings];

@@ -72,21 +72,13 @@ nav {
     cursor: pointer;
 }
 
-.axisHome {
-    color: white;
-}
-
-.titleHome {
-    fill: white;
-    font-size: 50px;
-}
-
 .container {
     padding-top: 80px;
 }
 
 .content {
     margin-top: 50px;
+    min-height: 470px;
 }
 
 #home {

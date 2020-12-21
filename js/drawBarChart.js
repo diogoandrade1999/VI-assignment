@@ -31,13 +31,15 @@ const drawBarChart = (groupData, svg, width, height, title, id) => {
 
     // add the x Axis
     svg.append("g")
-        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
+        .attr("class", "x axis")
+        .style("color", "white")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x).ticks(20, "s"));
 
     // add the y Axis
     svg.append("g")
-        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "axisHome"; } })
+        .attr("class", "y axis")
+        .style("color", "white")
         .call(d3.axisLeft(y));
 
     // add the title
@@ -45,6 +47,7 @@ const drawBarChart = (groupData, svg, width, height, title, id) => {
         .attr("x", width / 2 )
         .attr("y", -10)
         .style("text-anchor", "middle")
-        .attr("class", function (d) { if (!window.location.pathname.includes('/graphics.html')) { return "titleHome"; } })
+        .style("fill", "white")
+        .style("font-size", "20px")
         .text(title);
 }
