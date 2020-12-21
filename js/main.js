@@ -130,11 +130,11 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
         var workedData = genreDataPie(minMaxReleaseDate, [2019, 2019], genreList, groupGenre, 4);
         drawPieChart(workedData, svg4, null);
 
-        $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Call of Duty: Modern Warfare"].trailer +'" frameborder="0" allowfullscreen></iframe>');
-        $('#game-image').html('<img src="img/' + games_data["Call of Duty: Modern Warfare"].image +'" alt="game-image" width="620">');
-        $('#game-description').html('<h1><b>Call of Duty: Modern Warfare</b></h1>' + 
-                                    '</br><h3>' + games_data["Call of Duty: Modern Warfare"].description + '</h3>' +
-                                    '</br><h3><b>Genre:</b> First-Person Shooter</h3>');
+        $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Apex Legends"].trailer +'" frameborder="0" allowfullscreen></iframe>');
+        $('#game-image').html('<img src="img/' + games_data["Apex Legends"].image +'" alt="game-image" width="620">');
+        $('#game-description').html('<h1><b>Apex Legends</b></h1>' + 
+                                    '</br><h3>' + games_data["Apex Legends"].description + '</h3>' +
+                                    '</br><h3><b>Genre:</b> Battle Royale</h3>');
 
         $('#tournament-trailer').html('<iframe width="800" height="390" src="' + games_data["Fortnite"].trailer +'" frameborder="0" allowfullscreen></iframe>');
         $('#tournament-image').html('<img src="img/' + games_data["Fortnite"].image +'" alt="game-image" width="620">');
