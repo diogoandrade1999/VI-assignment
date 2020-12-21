@@ -127,6 +127,32 @@ const genreDataBar = (minMaxReleaseDate, minMaxYear, genreList, genreData, numGe
     return groupData;
 }
 
+const genreDataPie = (minMaxReleaseDate, minMaxYear, genreList, genreData, numGenres) => {
+    var groupData = [];
+    Object.entries(genreData).forEach(([genre, data]) => {
+        if (genreList.includes(genre)) {
+            var totalEarnings = 0;
+            data.forEach(d => {
+                if (minMaxReleaseDate[0] <= d.releaseDate &&
+                    d.releaseDate <= minMaxReleaseDate[1] &&
+                    minMaxYear[0] <= d.year &&
+                    d.year <= minMaxYear[1]) {
+                        totalEarnings += d.totalEarnings;
+                }
+            });
+            groupData.push({ "name": genre, "genre": genre, "totalEarnings": totalEarnings });
+        }
+    });
+    groupData.sort((a, b) => (a.totalEarnings > b.totalEarnings) ? -1 : ((b.totalEarnings > a.totalEarnings) ? 1 : 0));
+    var totalEarnings = 0;
+    groupData.slice(Math.max(numGenres, 0)).forEach(element => {
+        totalEarnings += element.totalEarnings;
+    });
+    groupData = groupData.slice(0, numGenres).reverse();
+    groupData.push({ "name": "Others", "genre": "Others", "totalEarnings": totalEarnings });
+    return groupData;
+}
+
 const genreDataLine = (minMaxReleaseDate, minMaxYear, genreList, genreData) => {
     var groupData = [];
     var years = [];

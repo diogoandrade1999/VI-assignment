@@ -61,7 +61,7 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
         var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 10);
         drawBarChart(workedData, svg3, width3, height3, "Top 10 Genres with the biggest Tournament Prize Pools in this period", null);
 
-        /*var workedData = genreDataBar(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 5);
+        /*var workedData = genreDataPie(minMaxReleaseDate, minMaxYear, genreList, groupGenre, 5);
         drawPieChart(workedData, svg4, null);*/
 
         // Genre Checkbox List
@@ -86,7 +86,7 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
             var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGenre, 10);
             drawBarChart(workedData, svg3, width3, height3, "Top 10 Genres with the biggest Tournament Prize Pools in this period", null);
 
-            /*var workedData = genreDataBar(minMaxReleaseDate, years, genreList, groupGenre, 5);
+            /*var workedData = genreDataPie(minMaxReleaseDate, years, genreList, groupGenre, 5);
             drawPieChart(workedData, svg4, null);*/
         });
 
@@ -115,7 +115,7 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
                 var workedData = gameDataBar(minMaxReleaseDate, years, genreList, groupGenre, 10);
                 drawBarChart(workedData, svg3, width3, height3, "Top 10 Genres with the biggest Tournament Prize Pools in this period", null);
 
-                /*var workedData = genreDataBar(minMaxReleaseDate, years, genreList, groupGenre, 5);
+                /*var workedData = genreDataPie(minMaxReleaseDate, years, genreList, groupGenre, 5);
                 drawPieChart(workedData, svg4, null);*/
             }
         });
@@ -127,7 +127,7 @@ d3.csv("https://diogoandrade1999.github.io/esports.earnings/data/EsportsData.csv
         var workedData = gameDataBar(minMaxReleaseDate, [2019, 2019], genreList, groupGame, 10);
         drawBarChart(workedData, svg3, width3, height3, "Top 10 Games with the biggest prize pools in 2019", "tournament");
 
-        var workedData = genreDataBar(minMaxReleaseDate, [2019, 2019], genreList, groupGenre, 4);
+        var workedData = genreDataPie(minMaxReleaseDate, [2019, 2019], genreList, groupGenre, 4);
         drawPieChart(workedData, svg4, null);
 
         $('#game-trailer').html('<iframe width="800" height="390" src="' + games_data["Call of Duty: Modern Warfare"].trailer +'" frameborder="0" allowfullscreen></iframe>');
