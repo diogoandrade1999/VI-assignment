@@ -18,8 +18,9 @@ with open(generalfile) as csv_general:
             continue
         else:
             game = r[0]
+            release = r[1]
             genre = r[2]
-            genres[game] = genre
+            genres[game] = (genre, release)
 
 with open(datafile) as csv_file:
     with open(outfile, 'w', newline='') as output_file:
@@ -30,6 +31,7 @@ with open(datafile) as csv_file:
             if line_count == 0:
                 row[0] = 'Year'
                 row.insert(2, 'Genre')
+                row.insert(6, 'Release')
                 output_writer.writerow(row)
                 line_count += 1
             else:
@@ -52,4 +54,4 @@ with open(datafile) as csv_file:
 
         for game in games.keys():
             for year in games[game].keys():
-                output_writer.writerow([year, game, genres[game]] + games[game][year])
+                output_writer.writerow([year, game, genres[game][0]] + games[game][year] + [genres[game][1]])
